@@ -6,7 +6,7 @@ Transform:
 Parameters:
   ProjectId:
     Type: String
-    Description: Creating a user for books API
+    Description: Books API
 
 Resources:
   ListBooks:
@@ -40,7 +40,7 @@ Resources:
   CreateBook:
         Type: AWS::Serverless::Function
         Properties:
-          Handler: io.openlight.lambda.GetBookHandler
+          Handler: io.openlight.lambda.CreateBookHandler
           Runtime: java8
           Role:
             Fn::ImportValue:
