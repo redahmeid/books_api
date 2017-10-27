@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+- AWS::Serverless-2016-10-31
+- AWS::CodeStar
+
+Parameters:
+  ProjectId:
+    Type: String
+    Description: Creating a user for books API
+
+Resources:
+  ListBooks:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: io.openlight.lambda.ListBooksHandler
+      Runtime: java8
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /books
+            Method: get
+  GetBook:
+      Type: AWS::Serverless::Function
+      Properties:
+        Handler: io.openlight.lambda.GetBookHandler
+        Runtime: java8
+        Role:
+          Fn::ImportValue:
+            !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+        Events:
+          GetEvent:
+            Type: Api
+            Properties:
+              Path: /books
+              Method: get
+  CreateBook:
+        Type: AWS::Serverless::Function
+        Properties:
+          Handler: io.openlight.lambda.GetBookHandler
+          Runtime: java8
+          Role:
+            Fn::ImportValue:
+              !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+          Events:
+            GetEvent:
+              Type: Api
+              Properties:
+                Path: /books
+                Method: post

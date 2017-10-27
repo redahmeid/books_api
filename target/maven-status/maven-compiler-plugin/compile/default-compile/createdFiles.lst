@@ -1,0 +1,8 @@
+com/aws/codestar/projecttemplates/Application.class
+io/openlight/neo4j/Inserter.class
+io/openlight/response/Link.class
+io/openlight/lambda/CreateUserHandler.class
+io/openlight/response/Links.class
+io/openlight/domain/User.class
+io/openlight/response/UserResponse.class
+io/openlight/lambda/GatewayResponse.class
