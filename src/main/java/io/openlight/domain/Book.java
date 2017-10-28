@@ -6,6 +6,7 @@ public class Book {
 
     public String title;
     public String image;
-    public Link editor;
+    public String editor;
     public String editorUsername;
+    public String id;
 }
