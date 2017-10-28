@@ -35,7 +35,7 @@ Resources:
           GetEvent:
             Type: Api
             Properties:
-              Path: /books
+              Path: /books/{bookid}
               Method: get
   CreateBook:
         Type: AWS::Serverless::Function
