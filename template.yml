@@ -14,7 +14,9 @@ Resources:
     Properties:
       Handler: io.openlight.lambda.ListBooksHandler
       Runtime: java8
-     
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
         GetEvent:
           Type: Api
@@ -26,7 +28,9 @@ Resources:
       Properties:
         Handler: io.openlight.lambda.GetBookHandler
         Runtime: java8
-
+        Role:
+          Fn::ImportValue:
+            !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
         Events:
           GetEvent:
             Type: Api
@@ -38,7 +42,9 @@ Resources:
         Properties:
           Handler: io.openlight.lambda.CreateBookHandler
           Runtime: java8
-
+          Role:
+            Fn::ImportValue:
+              !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
           Events:
             GetEvent:
               Type: Api
