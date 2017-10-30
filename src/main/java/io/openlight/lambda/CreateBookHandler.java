@@ -21,7 +21,7 @@ public class CreateBookHandler implements RequestHandler<APIGatewayProxyRequestE
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
         Book book = gson.fromJson(input.getBody(),Book.class);
-        String id = Inserter.createBook(book.title,book.image,book.editorUsername);
+        String id = Inserter.createBook(book.title,book.image,book.editor);
         Link link = new Link();
         link.location = "http://api.openlight.io/books/"+id;
         String linkJson = gson.toJson(link);

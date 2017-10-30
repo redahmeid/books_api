@@ -28,7 +28,7 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
         BookResponse response = new BookResponse();
 
         Book book = Finder.getById(book_id);
-        String editorLink = "http://api.openlight.io/users"+book.editorUsername;
+        String editorLink = "http://api.openlight.io/users"+book.editor;
         book.editor = editorLink;
         //response.body = user;
         //response.self = "http://api.openlight.io/users/"+user.username;
