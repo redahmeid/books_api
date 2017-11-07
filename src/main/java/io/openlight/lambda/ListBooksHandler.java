@@ -20,15 +20,8 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
-        User user = gson.fromJson(input.getBody(),User.class);
-        String id = Inserter.insert(user.username,user.name,user.email);
-        Link link = new Link();
-        link.location = "http://api.openlight.io/users/"+user.username;
-        String linkJson = gson.toJson(link);
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
 
-        return new APIGatewayProxyResponseEvent().withBody(linkJson).withHeaders(headers).withStatusCode(201);
+        return new APIGatewayProxyResponseEvent().withStatusCode(201);
     }
 }

@@ -19,7 +19,7 @@ public class Finder {
             Record record = result.next();
             book.id = record.get("id").asString();
             book.title = record.get("title").asString();
-            book.editorUsername = record.get("editor").asString();
+            book.editor = record.get("editor").asString();
 
         }
 

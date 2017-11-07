@@ -8,10 +8,7 @@ import com.google.gson.Gson;
 import io.openlight.domain.Book;
 import io.openlight.domain.User;
 import io.openlight.neo4j.Finder;
-import io.openlight.response.BookResponse;
-import io.openlight.response.Link;
-import io.openlight.response.Links;
-import io.openlight.response.BooksResponse;
+import io.openlight.response.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,19 +21,18 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
 
-        String book_id = input.getPathParameters().get("book_id");
+        String book_id = input.getPathParameters().get("bookid");
+
         BookResponse response = new BookResponse();
 
         Book book = Finder.getById(book_id);
         String editorLink = "http://api.openlight.io/users"+book.editor;
         book.editor = editorLink;
-        //response.body = user;
-        //response.self = "http://api.openlight.io/users/"+user.username;
-
 
         response.body = book;
+
         Link link = new Link();
-        link.url = "http://api.openlight.io/books/"+book.id+"/proposechapter";
+        link.url = "http://api.openlight.io/books/"+book.id+"/propose_chapter";
         link.rel = "propose_next_chapter";
 
         Links links = new Links();

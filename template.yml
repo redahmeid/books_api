@@ -14,6 +14,12 @@ Resources:
     Properties:
       Handler: io.openlight.lambda.ListBooksHandler
       Runtime: java8
+      MemorySize: 300
+      Environment:
+        Variables:
+          neo_user: !Ref NeoUser
+          neo_password: !Ref NeoPassword
+          neo_url: !Ref NeoUrl
       Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
       Events:
         GetEvent:
@@ -26,6 +32,12 @@ Resources:
       Properties:
         Handler: io.openlight.lambda.GetBookHandler
         Runtime: java8
+        MemorySize: 300
+        Environment:
+          Variables:
+            neo_user: !Ref NeoUser
+            neo_password: !Ref NeoPassword
+            neo_url: !Ref NeoUrl
         Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
         Events:
           GetEvent:
@@ -38,6 +50,12 @@ Resources:
         Properties:
           Handler: io.openlight.lambda.CreateBookHandler
           Runtime: java8
+          MemorySize: 300
+          Environment:
+            Variables:
+              neo_user: !Ref NeoUser
+              neo_password: !Ref NeoPassword
+              neo_url: !Ref NeoUrl
           Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
           Events:
             GetEvent:
