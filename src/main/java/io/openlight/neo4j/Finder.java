@@ -13,12 +13,12 @@ public class Finder {
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = new Book();
         Session session = driver.session();
-        StatementResult result = session.run("MATCH (n:Book { id: '"+book_id+"' }) RETURN n.id AS id, n.title AS title, n.editor AS edito");
+        StatementResult result = session.run("MATCH (n:Book { id: '"+book_id+"' }) RETURN n.id AS id, n.title AS title, n.editor AS editor");
 
         StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) RETURN n.username AS editor, b.title AS title, b.id AS book_id");
-        while ( result.hasNext() )
+        while ( findEditor.hasNext() )
         {
-            Record record = result.next();
+            Record record = findEditor.next();
             book.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
