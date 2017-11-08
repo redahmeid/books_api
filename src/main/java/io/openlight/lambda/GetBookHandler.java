@@ -8,7 +8,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
-import io.jsonwebtoken.Jwts;
 import io.openlight.domain.Book;
 import io.openlight.neo4j.Finder;
 import io.openlight.response.*;
