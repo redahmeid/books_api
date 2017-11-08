@@ -30,6 +30,7 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
         System.out.println(context.getIdentity().getIdentityPoolId());
 
         System.out.println(input.getRequestContext().getIdentity().getCognitoIdentityId());
+        System.out.println(input.getHeaders().toString());
 
         //CognitoIdentityProviderClient.create().ge
         String book_id = input.getPathParameters().get("bookid");
