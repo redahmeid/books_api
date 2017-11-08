@@ -4,11 +4,15 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Jwts;
 import io.openlight.domain.Book;
 import io.openlight.neo4j.Finder;
 import io.openlight.response.*;
+import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
 
 import java.security.interfaces.RSAKey;
 import java.util.HashMap;
@@ -22,12 +26,16 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
 
-        System.out.println(context.getIdentity().getIdentityPoolId());
+        //System.out.println(Jwts.parser().parseClaimsJws(input.getHeaders().get("Authorization")));
 
-        System.out.println(input.getRequestContext().getIdentity().getCognitoIdentityId());
-        System.out.println(input.getHeaders().toString());
 
-        System.out.println(Jwts.parser().parseClaimsJws(input.getHeaders().get("Authorization")));
+        String token = input.getHeaders().get("Authorization");
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            System.out.println(jwt.getPayload());
+        } catch (JWTDecodeException exception){
+            exception.printStackTrace();
+        }
 
         //CognitoIdentityProviderClient.create().ge
         String book_id = input.getPathParameters().get("bookid");
