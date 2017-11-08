@@ -32,8 +32,9 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
         try {
             DecodedJWT jwt = JWT.decode(token);
 
-            System.out.println(jwt.getClaims().get("email_verified").asString());
-            System.out.println(jwt.getClaims().get("cognito:username").asString());
+            System.out.println(jwt.getClaims());
+            System.out.println(jwt.getClaims().get("email_verified"));
+            System.out.println(jwt.getClaims().get("cognito:username"));
         } catch (JWTDecodeException exception){
             exception.printStackTrace();
         }
