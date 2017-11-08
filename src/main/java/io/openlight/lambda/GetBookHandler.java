@@ -32,7 +32,7 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
         try {
             DecodedJWT jwt = JWT.decode(token);
 
-            System.out.println(jwt.getClaims());
+            System.out.println(jwt.getClaims().get("username").asString());
         } catch (JWTDecodeException exception){
             exception.printStackTrace();
         }
