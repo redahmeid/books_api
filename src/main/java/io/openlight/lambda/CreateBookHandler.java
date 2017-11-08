@@ -15,17 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CreateBookHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class CreateBookHandler extends AbstractLambda{
 
     Gson gson = new Gson();
 
-    public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
+    @Override
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         Book book = gson.fromJson(input.getBody(),Book.class);
         ErrorResponse errorResponse = new ErrorResponse();
-        if(book.editor==null||book.editor==""){
-            errorResponse.addMessage("Missing username of editor");
-        }
+
 
         if(book.title==null||book.title==""){
             errorResponse.addMessage("Missing title");
@@ -36,7 +35,7 @@ public class CreateBookHandler implements RequestHandler<APIGatewayProxyRequestE
         }
 
 
-        String id = Inserter.createBook(book.title,book.image,book.editor);
+        String id = Inserter.createBook(book.title,book.image,user.username);
 
 
         Link link = new Link();

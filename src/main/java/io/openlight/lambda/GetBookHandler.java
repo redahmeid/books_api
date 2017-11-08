@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
+import io.openlight.domain.User;
 import io.openlight.neo4j.Finder;
 import io.openlight.response.*;
 import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
@@ -18,28 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetBookHandler extends AbstractLambda {
 
     Gson gson = new Gson();
 
-    public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
-
-        //System.out.println(Jwts.parser().parseClaimsJws(input.getHeaders().get("Authorization")));
-
-
-        String token = input.getHeaders().get("Authorization");
-        try {
-            DecodedJWT jwt = JWT.decode(token);
-
-            System.out.println(jwt.getClaims());
-            System.out.println(jwt.getClaims().get("email").asString());
-            System.out.println(jwt.getClaims().get("cognito:username").asString());
-        } catch (JWTDecodeException exception){
-            exception.printStackTrace();
-        }
-
-        //CognitoIdentityProviderClient.create().ge
+    @Override
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         String book_id = input.getPathParameters().get("bookid");
 
         BookResponse response = new BookResponse();
