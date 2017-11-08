@@ -1,5 +1,6 @@
 package io.openlight.lambda;
 
+import com.amazonaws.services.lambda.runtime.CognitoIdentity;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
@@ -21,12 +22,15 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
 
+        System.out.println(context.getIdentity());
+
+
         String book_id = input.getPathParameters().get("bookid");
 
         BookResponse response = new BookResponse();
 
         Book book = Finder.getById(book_id);
-        String editorLink = "http://api.openlight.io/users"+book.editor;
+        String editorLink = "http://api.openlight.io/users/"+book.editor;
         book.editor = editorLink;
 
         response.body = book;
