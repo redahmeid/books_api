@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
+import io.jsonwebtoken.Jwts;
 import io.openlight.domain.Book;
 import io.openlight.domain.User;
 import io.openlight.neo4j.Finder;
@@ -31,6 +32,8 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
 
         System.out.println(input.getRequestContext().getIdentity().getCognitoIdentityId());
         System.out.println(input.getHeaders().toString());
+
+        System.out.println(Jwts.parser().parse(input.getHeaders().get("Authorization")));
 
         //CognitoIdentityProviderClient.create().ge
         String book_id = input.getPathParameters().get("bookid");
