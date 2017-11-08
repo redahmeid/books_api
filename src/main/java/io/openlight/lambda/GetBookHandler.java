@@ -10,6 +10,11 @@ import io.openlight.domain.Book;
 import io.openlight.domain.User;
 import io.openlight.neo4j.Finder;
 import io.openlight.response.*;
+import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
+import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderAsyncClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminGetUserRequest;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.GetUserRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +28,9 @@ public class GetBookHandler implements RequestHandler<APIGatewayProxyRequestEven
 
 
         System.out.println(context.getIdentity());
+       
 
-
+        //CognitoIdentityProviderClient.create().ge
         String book_id = input.getPathParameters().get("bookid");
 
         BookResponse response = new BookResponse();
