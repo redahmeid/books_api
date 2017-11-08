@@ -7,6 +7,18 @@ Parameters:
   ProjectId:
     Type: String
     Description: Books API
+  NeoUser:
+      Type: String
+      Default: user
+      Description: username for neo4j instance
+  NeoPassword:
+      Type: String
+      Default: password
+      Description: password for neo4j instance
+  NeoUrl:
+      Type: String
+      Default: localhost
+      Description: url for neo4j instance
 
 Resources:
   ListBooks:
