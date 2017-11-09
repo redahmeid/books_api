@@ -1,20 +1,15 @@
 package io.openlight.lambda;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.interfaces.DecodedJWT;
+
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
 import io.openlight.domain.User;
 import io.openlight.neo4j.Finder;
 import io.openlight.response.*;
-import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
 
-import java.security.interfaces.RSAKey;
 import java.util.HashMap;
 import java.util.Map;
 
