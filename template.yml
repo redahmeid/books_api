@@ -37,7 +37,7 @@ Resources:
         GetEvent:
           Type: Api
           Properties:
-            Path: /books
+            Path: /
             Method: get
   GetBook:
       Type: AWS::Serverless::Function
@@ -55,7 +55,7 @@ Resources:
           GetEvent:
             Type: Api
             Properties:
-              Path: /books/{bookid}
+              Path: /{bookid}
               Method: get
   CreateBook:
         Type: AWS::Serverless::Function
@@ -73,5 +73,5 @@ Resources:
             GetEvent:
               Type: Api
               Properties:
-                Path: /books
+                Path: /
                 Method: post
