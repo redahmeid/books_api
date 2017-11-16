@@ -6,13 +6,6 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 
-import io.openlight.domain.User;
-import io.openlight.neo4j.Inserter;
-import io.openlight.response.Link;
-
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 

@@ -5,8 +5,9 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
+import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
-import io.openlight.neo4j.books.Inserter;
+import io.openlight.neo4j.chapters.Inserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
 
@@ -14,31 +15,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CreateBookHandler extends AbstractLambda{
+public class CreateFirstChapterHandler extends AbstractLambda{
 
     Gson gson = new Gson();
 
 
     @Override
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
-        Book book = gson.fromJson(input.getBody(),Book.class);
+        Chapter chapter = gson.fromJson(input.getBody(),Chapter.class);
         ErrorResponse errorResponse = new ErrorResponse();
 
-
-        if(book.title==null||book.title==""){
-            errorResponse.addMessage("Missing title");
-        }
 
         if(errorResponse.messages.size()>0){
             return new APIGatewayProxyResponseEvent().withBody(gson.toJson(errorResponse)).withStatusCode(400);
         }
 
 
-        String id = Inserter.createBook(book.title,book.image,user.username);
+        String id = Inserter.createFirstChapter(chapter.bookid, chapter.text,user.username);
 
 
         Link link = new Link();
-        link.location = "http://api.openlight.io/books/"+id;
+        link.location = "http://sandbox.api.story.openlight.io/books/"+chapter.bookid+"/chapters/"+id;
         String linkJson = gson.toJson(link);
 
         Map<String, String> headers = new HashMap<>();

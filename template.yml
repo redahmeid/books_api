@@ -39,6 +39,7 @@ Resources:
           Properties:
             Path: /
             Method: get
+            DefinitonUri: books-api-swagger.yaml
   GetBook:
       Type: AWS::Serverless::Function
       Properties:
@@ -57,6 +58,7 @@ Resources:
             Properties:
               Path: /{bookid}
               Method: get
+              DefinitonUri: books-api-swagger.yaml
   CreateBook:
         Type: AWS::Serverless::Function
         Properties:
@@ -75,3 +77,22 @@ Resources:
               Properties:
                 Path: /
                 Method: post
+                DefinitonUri: books-api-swagger.yaml
+  CreateFirstChapter:
+          Type: AWS::Serverless::Function
+          Properties:
+            Handler: io.openlight.lambda.CreateFirstChapterHandler
+            Runtime: java8
+            MemorySize: 300
+            Environment:
+              Variables:
+                neo_user: !Ref NeoUser
+                neo_password: !Ref NeoPassword
+                neo_url: !Ref NeoUrl
+            Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
+            Events:
+              GetEvent:
+                Type: Api
+                Properties:
+                  Path: /{bookid}/chapters
+                  Method: post

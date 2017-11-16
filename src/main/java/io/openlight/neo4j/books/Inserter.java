@@ -1,4 +1,4 @@
-package io.openlight.neo4j;
+package io.openlight.neo4j.books;
 
 import org.neo4j.driver.v1.*;
 

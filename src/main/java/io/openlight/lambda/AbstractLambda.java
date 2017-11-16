@@ -15,7 +15,7 @@ public abstract class AbstractLambda implements RequestHandler<APIGatewayProxyRe
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
 
-        String token = input.getHeaders().get("io.openlight.api.auth");
+        String token = input.getHeaders().get("io.openlight.story.api.auth");
         User user = new User();
         try {
             DecodedJWT jwt = JWT.decode(token);

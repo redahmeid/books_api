@@ -1,6 +1,7 @@
-package io.openlight.response;
+package io.openlight.response.books;
 
 import io.openlight.domain.Book;
+import io.openlight.response.Link;
 
 import java.util.ArrayList;
 

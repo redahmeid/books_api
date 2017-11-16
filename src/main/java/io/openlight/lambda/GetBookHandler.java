@@ -7,8 +7,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
 import io.openlight.domain.User;
-import io.openlight.neo4j.Finder;
-import io.openlight.response.*;
+import io.openlight.neo4j.books.Finder;
+import io.openlight.response.books.BookResponse;
+import io.openlight.response.Link;
+import io.openlight.response.Links;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +34,8 @@ public class GetBookHandler extends AbstractLambda {
         response.body = book;
 
         Link link = new Link();
-        link.url = "http://api.openlight.io/books/"+book.id+"/propose_chapter";
-        link.rel = "propose_next_chapter";
+        link.url = "http://api.openlight.io/books/"+book.id+"/chapters";
+        link.rel = "propose_first_chapter";
 
         Links links = new Links();
         links.addLink(link);

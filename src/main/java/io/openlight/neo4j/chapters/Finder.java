@@ -1,11 +1,7 @@
-package io.openlight.neo4j;
+package io.openlight.neo4j.chapters;
 
 import io.openlight.domain.Book;
-import io.openlight.domain.User;
 import org.neo4j.driver.v1.*;
-import org.neo4j.driver.v1.types.Path;
-
-import java.util.UUID;
 
 public class Finder {
 
