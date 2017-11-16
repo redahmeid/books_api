@@ -4,7 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import io.openlight.domain.Book;
 import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
 import io.openlight.neo4j.chapters.Inserter;

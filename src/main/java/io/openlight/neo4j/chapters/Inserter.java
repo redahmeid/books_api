@@ -11,9 +11,10 @@ public class Inserter {
 
 
     public static String createFirstChapter(String bookid, String chapterText, String writer){
+        System.out.print("Book ID: "+bookid+", CHAPTER TEXT: "+chapterText+"\n, WRITER: "+writer);
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Session session = driver.session();
-        String id = bookid + new Random().toString();
+        String id = new Random().nextInt()+"";
         session.run("CREATE (n:Chapter {id:'"+id+"', text:'"+chapterText+"', writer:'"+writer+"'})");
         session.run("MATCH (a:Book { id: '"+bookid+"' }), (b:Chapter { id: '"+id+"' }) CREATE (b)-[:PROPOSED_FOR]->(a);");
         session.close();
