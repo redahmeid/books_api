@@ -24,18 +24,14 @@ public class CreateFirstChapterHandler extends AbstractLambda{
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         Chapter chapter = gson.fromJson(input.getBody(),Chapter.class);
         ErrorResponse errorResponse = new ErrorResponse();
+        String bookid = input.getPathParameters().get("bookid");
 
 
-        if(errorResponse.messages.size()>0){
-            return new APIGatewayProxyResponseEvent().withBody(gson.toJson(errorResponse)).withStatusCode(400);
-        }
-
-
-        String id = Inserter.createFirstChapter(chapter.bookid, chapter.text,user.username);
+        String id = Inserter.createFirstChapter(bookid, chapter.text,user.username);
 
 
         Link link = new Link();
-        link.location = "http://sandbox.api.story.openlight.io/books/"+chapter.bookid+"/chapters/"+id;
+        link.location = "http://sandbox.api.openlight.io/books/"+bookid+"/chapters/"+id;
         String linkJson = gson.toJson(link);
 
         Map<String, String> headers = new HashMap<>();

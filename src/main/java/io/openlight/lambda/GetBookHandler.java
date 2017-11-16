@@ -34,7 +34,7 @@ public class GetBookHandler extends AbstractLambda {
         response.body = book;
 
         Link link = new Link();
-        link.url = "http://api.openlight.io/books/"+book.id+"/chapters";
+        link.url = "http://sandbox.api.openlight.io/books/"+book.id+"/chapters";
         link.rel = "propose_first_chapter";
 
         Links links = new Links();
