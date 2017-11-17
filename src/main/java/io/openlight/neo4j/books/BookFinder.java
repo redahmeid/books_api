@@ -8,7 +8,7 @@ import org.neo4j.driver.v1.types.Path;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Finder {
+public class BookFinder {
 
     public static Book getById(String book_id){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );

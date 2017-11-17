@@ -6,16 +6,14 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
-import io.openlight.neo4j.books.Finder;
+import io.openlight.neo4j.books.BookFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
-import io.openlight.response.books.BookResponse;
 import io.openlight.response.books.BooksResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -29,7 +27,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         BooksResponse response = new BooksResponse();
 
-        ArrayList<Book> books = Finder.listBooks();
+        ArrayList<Book> books = BookFinder.listBooks();
 
 
         books.

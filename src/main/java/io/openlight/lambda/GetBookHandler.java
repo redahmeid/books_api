@@ -7,7 +7,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import io.openlight.domain.Book;
 import io.openlight.domain.User;
-import io.openlight.neo4j.books.Finder;
+import io.openlight.neo4j.books.BookFinder;
 import io.openlight.response.books.BookResponse;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
@@ -27,7 +27,7 @@ public class GetBookHandler extends AbstractLambda {
 
         BookResponse response = new BookResponse();
 
-        Book book = Finder.getById(book_id);
+        Book book = BookFinder.getById(book_id);
 
         String editorLink = "http://sandbox.api.openlight.io/users/"+book.editor;
         book.editor = editorLink;

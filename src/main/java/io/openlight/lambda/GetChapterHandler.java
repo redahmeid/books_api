@@ -6,6 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
+import io.openlight.neo4j.books.BookFinder;
 import io.openlight.neo4j.chapters.ChapterFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
@@ -24,21 +25,32 @@ public class GetChapterHandler extends AbstractLambda {
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         String chapterId = input.getPathParameters().get("chapterid");
 
+
+
+        Links links = new Links();
         ChapterResponse response = new ChapterResponse();
 
         Chapter chapter = ChapterFinder.getById(chapterId);
-        //String writerLink = "http://sandbox.api.openlight.io/users/"+chapter.writer;
         chapter.self = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/"+chapter.self;
+
+        if(BookFinder.getById(chapter.book).editor.equals(user.username)){
+            Link link = new Link();
+            link.url = chapter.self;
+            link.rel = "choose_this_chapter";
+        }
+
         chapter.book = "http://sandbox.api.openlight.io/books/"+chapter.book;
         chapter.writer = "http://sandbox.api.openlight.io/users/"+chapter.writer;
 
         response.body = chapter;
 
         Link link = new Link();
-        link.url = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/proposed";
+        link.url = chapter.book +"/chapters/proposed";
         link.rel = "other_proposed_chapters_for_book";
 
-        Links links = new Links();
+
+
+
         links.addLink(link);
 
         response.addLink(link);

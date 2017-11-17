@@ -26,7 +26,8 @@ Resources:
     Properties:
       Handler: io.openlight.lambda.ListBooksHandler
       Runtime: java8
-      MemorySize: 300
+      MemorySize: 568
+      Timeout: 6
       Environment:
         Variables:
           neo_user: !Ref NeoUser
@@ -44,7 +45,8 @@ Resources:
       Properties:
         Handler: io.openlight.lambda.GetBookHandler
         Runtime: java8
-        MemorySize: 300
+        MemorySize: 568
+        Timeout: 6
         Environment:
           Variables:
             neo_user: !Ref NeoUser
@@ -62,7 +64,8 @@ Resources:
         Properties:
           Handler: io.openlight.lambda.CreateBookHandler
           Runtime: java8
-          MemorySize: 300
+          MemorySize: 568
+          Timeout: 6
           Environment:
             Variables:
               neo_user: !Ref NeoUser
@@ -80,7 +83,8 @@ Resources:
         Properties:
           Handler: io.openlight.lambda.CreateFirstChapterHandler
           Runtime: java8
-          MemorySize: 300
+          MemorySize: 568
+          Timeout: 6
           Environment:
             Variables:
               neo_user: !Ref NeoUser
@@ -98,7 +102,8 @@ Resources:
           Properties:
             Handler: io.openlight.lambda.GetChapterHandler
             Runtime: java8
-            MemorySize: 300
+            MemorySize: 568
+            Timeout: 6
             Environment:
               Variables:
                 neo_user: !Ref NeoUser

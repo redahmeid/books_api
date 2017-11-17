@@ -9,12 +9,12 @@ public class BooksResponse {
 
     public ArrayList<Book> body;
 
-    public ArrayList<Link> actions;
+    public ArrayList<Link> links;
 
 
     public void addLink(Link link){
-        if(actions==null) actions = new ArrayList<>();
-        actions.add(link);
+        if(links ==null) links = new ArrayList<>();
+        links.add(link);
     }
 
     public void addBook(Book book){

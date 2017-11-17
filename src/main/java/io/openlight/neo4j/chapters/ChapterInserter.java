@@ -11,7 +11,6 @@ public class ChapterInserter {
 
 
     public static String createFirstChapter(String bookid, String chapterText, String writer){
-        System.out.print("Book ID: "+bookid+", CHAPTER TEXT: "+chapterText+"\n, WRITER: "+writer);
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Session session = driver.session();
         String id = new Random().nextInt()+"";
@@ -22,6 +21,5 @@ public class ChapterInserter {
         session.close();
         driver.close();
         return id;
-
     }
 }
