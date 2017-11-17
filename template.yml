@@ -93,3 +93,21 @@ Resources:
               Properties:
                 Path: /{bookid}/chapters
                 Method: post
+  GetChapter:
+          Type: AWS::Serverless::Function
+          Properties:
+            Handler: io.openlight.lambda.GetChapterHandler
+            Runtime: java8
+            MemorySize: 300
+            Environment:
+              Variables:
+                neo_user: !Ref NeoUser
+                neo_password: !Ref NeoPassword
+                neo_url: !Ref NeoUrl
+            Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
+            Events:
+              GetEvent:
+                Type: Api
+                Properties:
+                  Path: /{bookid}/chapters/{chapterid}
+                  Method: get

@@ -1,30 +1,33 @@
 package io.openlight.neo4j.chapters;
 
-import io.openlight.domain.Book;
+import io.openlight.domain.Chapter;
 import org.neo4j.driver.v1.*;
 
 public class Finder {
 
-    public static Book getById(String book_id){
+    public static Chapter getById(String chapterId){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
-        Book book = null;
+        Chapter chapter = null;
         Session session = driver.session();
-        StatementResult result = session.run("MATCH (n:Book { id: '"+book_id+"' }) RETURN n.id AS id, n.title AS title, n.editor AS editor");
+        StatementResult result = session.run("MATCH (n:Chapter { id: '"+chapterId+"' }) RETURN n.id AS id, n.text AS text");
 
-        StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) RETURN n.username AS editor, b.title AS title, b.id AS book_id");
-        while ( findEditor.hasNext() )
+        StatementResult chapterResult = session.run("MATCH (n:User)-[WROTE]-(b:Chapter{id: '"+chapterId+"' })-[PROPOSED_FOR]-(c:book) RETURN n.username AS writer, b.text AS text, b.id AS chapter_id,c.id AS book_id");
+        while ( chapterResult.hasNext() )
         {
-            book = new Book();
-            Record record = findEditor.next();
-            book.id = record.get("book_id").asString();
-            book.title = record.get("title").asString();
-            book.editor = record.get("editor").asString();
+            chapter = new Chapter();
+            Record record = chapterResult.next();
+            chapter.id = record.get("chapter_id").asString();
+            chapter.text = record.get("text").asString();
+            chapter.writer = record.get("writer").asString();
+            chapter.bookId = record.get("book_id").asString();
 
         }
+
+
 
         session.close();
         driver.close();
 
-        return book;
+        return chapter;
     }
 }
