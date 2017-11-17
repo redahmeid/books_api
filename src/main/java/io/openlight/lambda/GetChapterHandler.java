@@ -38,7 +38,7 @@ public class GetChapterHandler extends AbstractLambda {
             Link link = new Link();
             link.url = chapter.self;
             link.rel = "choose_this_chapter";
-            links.addLink(link);
+            response.addLink(link);
         }
 
         chapter.book = "http://sandbox.api.openlight.io/books/"+chapter.book;
@@ -53,7 +53,6 @@ public class GetChapterHandler extends AbstractLambda {
 
 
 
-        links.addLink(link);
 
         response.addLink(link);
         String responseJson = gson.toJson(response);
