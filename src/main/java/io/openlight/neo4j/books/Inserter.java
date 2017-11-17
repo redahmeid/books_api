@@ -12,6 +12,7 @@ public class Inserter {
         Session session = driver.session();
         String id = title.replaceAll("\\s+","_").toLowerCase();
         session.run("CREATE (n:Book {id:'"+id+"', title:'"+title+"', image:'"+image+"'})");
+        session.run("MERGE (n:User {username: '"+username+"'})");
         session.run("MATCH (a:User { username: '"+username+"' }), (b:Book { id: '"+id+"' }) CREATE (a)-[:EDITS]->(b);");
         session.close();
         driver.close();

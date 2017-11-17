@@ -9,7 +9,6 @@ public class Finder {
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Chapter chapter = null;
         Session session = driver.session();
-        StatementResult result = session.run("MATCH (n:Chapter { id: '"+chapterId+"' }) RETURN n.id AS id, n.text AS text");
 
         StatementResult chapterResult = session.run("MATCH (n:User)-[WROTE]-(b:Chapter{id: '"+chapterId+"' })-[PROPOSED_FOR]-(c:book) RETURN n.username AS writer, b.text AS text, b.id AS chapter_id,c.id AS book_id");
         while ( chapterResult.hasNext() )

@@ -16,6 +16,7 @@ public class Inserter {
         Session session = driver.session();
         String id = new Random().nextInt()+"";
         session.run("CREATE (n:Chapter {id:'"+id+"', text:'"+chapterText+"'})");
+        session.run("MERGE (n:User {username: '"+writer+"'})");
         session.run("MATCH (a:Book { id: '"+bookid+"' }), (b:Chapter { id: '"+id+"' }) CREATE (b)-[:PROPOSED_FOR]->(a);");
         session.run("MATCH (a:Chapter { id: '"+id+"' }), (b:User { username: '"+writer+"' }) CREATE (b)-[:WROTE]->(a);");
         session.close();
