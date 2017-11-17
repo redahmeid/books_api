@@ -6,7 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
-import io.openlight.neo4j.chapters.Inserter;
+import io.openlight.neo4j.chapters.ChapterInserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
 
@@ -26,7 +26,7 @@ public class CreateFirstChapterHandler extends AbstractLambda{
         String bookid = input.getPathParameters().get("bookid");
 
 
-        String id = Inserter.createFirstChapter(bookid, chapter.text,user.username);
+        String id = ChapterInserter.createFirstChapter(bookid, chapter.text,user.username);
 
 
         Link link = new Link();

@@ -7,7 +7,7 @@ import org.neo4j.driver.v1.Session;
 
 import java.util.Random;
 
-public class Inserter {
+public class ChapterInserter {
 
 
     public static String createFirstChapter(String bookid, String chapterText, String writer){

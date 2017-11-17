@@ -25,7 +25,7 @@ public class CreateBookHandler extends AbstractLambda{
         ErrorResponse errorResponse = new ErrorResponse();
 
 
-       
+
         String id = Inserter.createBook(book.title,book.image,user.username);
 
 

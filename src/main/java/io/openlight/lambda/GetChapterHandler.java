@@ -4,13 +4,11 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import io.openlight.domain.Book;
 import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
-import io.openlight.neo4j.chapters.Finder;
+import io.openlight.neo4j.chapters.ChapterFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
-import io.openlight.response.books.BookResponse;
 import io.openlight.response.chapters.ChapterResponse;
 
 import java.util.HashMap;
@@ -28,25 +26,27 @@ public class GetChapterHandler extends AbstractLambda {
 
         ChapterResponse response = new ChapterResponse();
 
-        Chapter chapter = Finder.getById(chapterId);
-        String writerLink = "http://sandbox.api.openlight.io/users/"+chapter.writer;
-        chapter.writer = writerLink;
+        Chapter chapter = ChapterFinder.getById(chapterId);
+        //String writerLink = "http://sandbox.api.openlight.io/users/"+chapter.writer;
+        chapter.self = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/"+chapter.self;
+        chapter.book = "http://sandbox.api.openlight.io/books/"+chapter.book;
+        chapter.writer = "http://sandbox.api.openlight.io/users/"+chapter.writer;
 
         response.body = chapter;
 
         Link link = new Link();
-        link.url = "http://sandbox.api.openlight.io/books/"+chapter.bookId+"/chapters/proposed";
+        link.url = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/proposed";
         link.rel = "other_proposed_chapters_for_book";
 
         Links links = new Links();
         links.addLink(link);
 
         response.addLink(link);
-        String bookJson = gson.toJson(response);
+        String responseJson = gson.toJson(response);
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
 
-        return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
+        return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(200);
     }
 }
