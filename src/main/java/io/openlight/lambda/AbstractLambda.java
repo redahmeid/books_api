@@ -22,6 +22,7 @@ public abstract class AbstractLambda implements RequestHandler<APIGatewayProxyRe
 
             user.email = jwt.getClaims().get("email").asString();
             user.username = jwt.getClaim("cognito:username").asString();
+            System.out.println("Logged on user is : "+user);
 
         } catch (JWTDecodeException exception){
             exception.printStackTrace();

@@ -34,6 +34,7 @@ public class GetChapterHandler extends AbstractLambda {
         chapter.self = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/"+chapter.self;
 
         if(BookFinder.getById(chapter.book).editor.equals(user.username)){
+            System.out.println("User is the editor of this book.");
             Link link = new Link();
             link.url = chapter.self;
             link.rel = "choose_this_chapter";
