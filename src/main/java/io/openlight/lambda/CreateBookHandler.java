@@ -25,15 +25,7 @@ public class CreateBookHandler extends AbstractLambda{
         ErrorResponse errorResponse = new ErrorResponse();
 
 
-        if(book.title==null||book.title==""){
-            errorResponse.addMessage("Missing title");
-        }
-
-        if(errorResponse.messages.size()>0){
-            return new APIGatewayProxyResponseEvent().withBody(gson.toJson(errorResponse)).withStatusCode(400);
-        }
-
-
+       
         String id = Inserter.createBook(book.title,book.image,user.username);
 
 
