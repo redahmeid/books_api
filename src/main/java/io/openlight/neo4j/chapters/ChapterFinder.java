@@ -15,7 +15,7 @@ public class ChapterFinder {
         {
             chapter = new Chapter();
             Record record = chapterResult.next();
-            chapter.id = record.get("chapter_id").asString();
+            chapter.self = record.get("chapter_id").asString();
             chapter.text = record.get("text").asString();
             chapter.writer = record.get("writer").asString();
             chapter.book = record.get("book_id").asString();
