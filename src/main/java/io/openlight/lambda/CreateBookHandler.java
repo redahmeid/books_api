@@ -30,7 +30,7 @@ public class CreateBookHandler extends AbstractLambda{
 
 
         Link link = new Link();
-        link.location = "http://api.openlight.io/books/"+id;
+        link.location = "http://sandbox.api.openlight.io/books/"+id;
         String linkJson = gson.toJson(link);
 
         Map<String, String> headers = new HashMap<>();

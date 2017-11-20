@@ -10,8 +10,8 @@ public class Inserter {
     public static String createBook(String title, String image, String username){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Session session = driver.session();
-        String id = title.replaceAll("\\s+","_").toLowerCase();
-        session.run("CREATE (n:Book {id:'"+id+"', title:'"+title+"', image:'"+image+"'})");
+        String id = title.replaceAll("\\s+","_").replaceAll("[\\\\p{Punct}&&[^_-]]+","").toLowerCase();
+        session.run("CREATE (n:Book {id:\""+id+"\", title:\""+title+"\"})");
         session.run("MERGE (n:User {username: '"+username+"'})");
         session.run("MATCH (a:User { username: '"+username+"' }), (b:Book { id: '"+id+"' }) CREATE (a)-[:EDITS]->(b);");
         session.close();
