@@ -22,12 +22,8 @@ public class CreateBookHandler extends AbstractLambda{
     @Override
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         Book book = gson.fromJson(input.getBody(),Book.class);
-        ErrorResponse errorResponse = new ErrorResponse();
-
-
 
         String id = Inserter.createBook(book.title,book.image,user.username);
-
 
         Link link = new Link();
         link.location = "http://sandbox.api.openlight.io/books/"+id;

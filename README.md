@@ -1,13 +1,14 @@
-Welcome to the AWS CodeStar sample web service
+Welcome to Complete the Story Books API
 ==============================================
 
-This sample code helps get you started with a simple Java web service using
-AWS Lambda and Amazon API Gateway.
+This is a project created as a demo for a talk I ran at Tesco.
+
+The premise is of a book writing crowd sourcing service.
 
 What's Here
 -----------
 
-This sample includes:
+This demo includes:
 
 * README.md - this file
 * buildspec.yml - this file is used by AWS CodeBuild to build the web
@@ -19,26 +20,31 @@ This sample includes:
   Gateway.
 
 
-What Do I Do Next?
-------------------
+The architecture
+----------------
 
-If you have checked out a local copy of your repository you can start making changes
-to the sample code.  We suggest making a small change to index.py first, so you can
-see how changes pushed to your project's repository are automatically picked up by
-your project pipeline and deployed to AWS Lambda and Amazon API Gateway. (You can
-watch the pipeline progress on your AWS CodeStar project dashboard.) Once you've seen
-how that works, start developing your own code, and have fun!
+Complete the story is built on the AWS platform fully.
 
-Learn more about Serverless Application Model (SAM) and how it works here:
-https://github.com/awslabs/serverless-application-model/blob/master/HOWTO.md
+APIs are run on API Gateway
 
-AWS Lambda Developer Guide:
-http://docs.aws.amazon.com/lambda/latest/dg/deploying-lambda-apps.html
+Authentication is via AWS Cognito
 
-Learn more about AWS CodeStar by reading the user guide, and post questions and
-comments about AWS CodeStar on our forum.
+Business logic is via AWS Lambdas
 
-AWS CodeStar User Guide:
-http://docs.aws.amazon.com/codestar/latest/userguide/welcome.html
+Database is Neo4j
 
-AWS CodeStar Forum: https://forums.aws.amazon.com/forum.jspa?forumID=248
+Code is deployed using AWS SAM template - running Code Build, Code Deploy, Cloud Formation and Code Pipeline
+
+
+TODOs
+-----
+
+Split out Lamdas in their own repos
+
+Start doing proper TDD (would have saved me so much headache)
+
+Add swagger with AWS extensions - this saves time when deploying changes to template.yml, asthis wipes out custom authorizers
+
+Create a developer hub to expose these
+
+Create a mobile app
