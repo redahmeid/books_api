@@ -19,6 +19,10 @@ Parameters:
       Type: String
       Default: localhost
       Description: url for neo4j instance
+  BaseUrl:
+      Type: String
+      Default: localhost
+      Description: base url for my APIs
 
 Resources:
   ListBooks:
@@ -33,6 +37,7 @@ Resources:
           neo_user: !Ref NeoUser
           neo_password: !Ref NeoPassword
           neo_url: !Ref NeoUrl
+          base_url: !Ref BaseUrl
       Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
       Events:
         GetEvent:
@@ -52,6 +57,7 @@ Resources:
             neo_user: !Ref NeoUser
             neo_password: !Ref NeoPassword
             neo_url: !Ref NeoUrl
+            base_url: !Ref BaseUrl
         Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
         Events:
           GetEvent:
@@ -71,6 +77,7 @@ Resources:
               neo_user: !Ref NeoUser
               neo_password: !Ref NeoPassword
               neo_url: !Ref NeoUrl
+              base_url: !Ref BaseUrl
           Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
           Events:
             GetEvent:
@@ -90,6 +97,7 @@ Resources:
               neo_user: !Ref NeoUser
               neo_password: !Ref NeoPassword
               neo_url: !Ref NeoUrl
+              base_url: !Ref BaseUrl
           Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
           Events:
             GetEvent:
@@ -109,6 +117,7 @@ Resources:
                 neo_user: !Ref NeoUser
                 neo_password: !Ref NeoPassword
                 neo_url: !Ref NeoUrl
+                base_url: !Ref BaseUrl
             Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
             Events:
               GetEvent:
