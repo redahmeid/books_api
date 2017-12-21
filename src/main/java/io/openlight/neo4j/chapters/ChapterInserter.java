@@ -18,7 +18,7 @@ public class ChapterInserter {
         while ( numberOfChapters.hasNext() ) {
 
             Record record = numberOfChapters.next();
-            id = record.get("total").asString();
+            id = String.valueOf(record.get("total").asInt());
         }
 
         session.run("MERGE (n:User {username: '"+writer+"'})");
