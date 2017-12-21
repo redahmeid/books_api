@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CreateFirstChapterHandler extends AbstractLambda{
+public class SelectChapterHandler extends AbstractLambda{
 
     Gson gson = new Gson();
 
@@ -23,14 +23,15 @@ public class CreateFirstChapterHandler extends AbstractLambda{
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         Chapter chapter = gson.fromJson(input.getBody(),Chapter.class);
         ErrorResponse errorResponse = new ErrorResponse();
-        String bookid = input.getPathParameters().get("bookid");
+        String chapterId = input.getPathParameters().get("chapterid");
 
+        String bookId = input.getPathParameters().get("bookid");
 
-        String id = ChapterInserter.proposeAChapter(bookid, chapter.text,user.username);
+        ChapterInserter.selectChapter(chapterId);
 
 
         Link link = new Link();
-        link.location = "http://sandbox.api.openlight.io/books/"+bookid+"/chapters/"+id;
+        link.location = "http://sandbox.api.openlight.io/books/"+bookId+"/chapters/"+chapterId;
         String linkJson = gson.toJson(link);
 
         Map<String, String> headers = new HashMap<>();

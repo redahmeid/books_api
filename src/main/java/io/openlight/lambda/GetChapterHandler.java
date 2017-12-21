@@ -36,8 +36,8 @@ public class GetChapterHandler extends AbstractLambda {
         if(BookFinder.getById(chapter.book).editor.equals(user.username)){
             System.out.println("User is the editor of this book.");
             Link link = new Link();
-            link.url = chapter.self;
-            link.rel = "choose_this_chapter";
+            link.url = chapter.self+"/select";
+            link.rel = "select_this_chapter";
             response.addLink(link);
         }
 

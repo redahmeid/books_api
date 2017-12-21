@@ -19,4 +19,9 @@ public class Inserter {
         return id;
 
     }
+
+
+    // MATCH path = (a)-[:CHOSEN*]->(b:Book{id:'thedeadprojectmanager'}) WITH last(nodes(path)) as end CREATE (nextChapter:Chapter{id:'8974983223',text:"I think this isn't good"})-[:PROPOSED_FOR]->(end)
+
+    // match (a:Book{id:"catch22"}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'7767654544656423',text:"I think this is also good"})
 }

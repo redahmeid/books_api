@@ -125,3 +125,24 @@ Resources:
                 Properties:
                   Path: /{bookid}/chapters/{chapterid}
                   Method: get
+
+  SelectChapter:
+          Type: AWS::Serverless::Function
+          Properties:
+            Handler: io.openlight.lambda.SelectChapterHandler
+            Runtime: java8
+            MemorySize: 568
+            Timeout: 6
+            Environment:
+              Variables:
+                neo_user: !Ref NeoUser
+                neo_password: !Ref NeoPassword
+                neo_url: !Ref NeoUrl
+                base_url: !Ref BaseUrl
+            Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
+            Events:
+              GetEvent:
+                Type: Api
+                Properties:
+                  Path: /{bookid}/chapters/{chapterid}/select
+                  Method: put
