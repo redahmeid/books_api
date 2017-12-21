@@ -24,7 +24,7 @@ public class ChapterInserter {
         session.run("MERGE (n:User {username: '"+writer+"'})");
 
         // propose the chapter
-        session.run("match (a:Book{id:'"+bookid+"'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'"+id+"',text:\""+chapterText+"\"}) CREATE (writer:User{username:'"+writer+"')-[:WROTE]->(nextChapter)");
+        session.run("match (a:Book{id:'"+bookid+"'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'"+id+"',text:\""+chapterText+"\"}) CREATE (writer:User{username:'"+writer+"'})-[:WROTE]->(nextChapter)");
 
         session.close();
         driver.close();
