@@ -24,12 +24,15 @@ public class ChapterInserter {
         session.run("MERGE (n:User {username: '"+writer+"'})");
 
         // propose the chapter
-        session.run("match (a:Book{id:'"+bookid+"'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'"+id+"',text:\""+chapterText+"\"}) MERGE (writer:User{username:'"+writer+"'})-[:WROTE]->(nextChapter)");
+        session.run("match (a:Book{id:'"+bookid+"'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin MATCH (writer:User{username:'"+writer+"'}) CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'"+id+"',text:\""+chapterText+"\"}) MERGE (writer)-[:WROTE]->(nextChapter)");
 
         session.close();
         driver.close();
         return id;
     }
+
+    // match (a:Book{id:'nextstop'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin MATCH (writer:User{username:'reda'}) CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'nextstop-1',text:"my next proposal"}) MERGE (writer)-[:WROTE]->(nextChapter)
+
 
     public static void selectChapter(String chapterId){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
