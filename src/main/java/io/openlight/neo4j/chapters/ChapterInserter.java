@@ -13,12 +13,12 @@ public class ChapterInserter {
         Session session = driver.session();
         String id = "";
 
-        StatementResult numberOfChapters = session.run("match (c:Chapter) return count(c) as total");
+        StatementResult numberOfChapters = session.run("match (b:Book{id:'"+bookid+"'}) - [:PROPOSED_NEXT] -> (c:Chapter) return count(c) as total");
 
         while ( numberOfChapters.hasNext() ) {
 
             Record record = numberOfChapters.next();
-            id = String.valueOf(record.get("total").asInt());
+            id = bookid+"-"+record.get("total").asInt();
         }
 
         session.run("MERGE (n:User {username: '"+writer+"'})");
