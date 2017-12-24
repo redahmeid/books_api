@@ -48,7 +48,7 @@ public class GetChapterHandler extends AbstractLambda {
 
         chapter.book = "http://sandbox.api.openlight.io/books/"+chapter.book;
         chapter.writer = "http://sandbox.api.openlight.io/users/"+chapter.writer;
-        chapter.previous = "http://sandbox.api.openlight.io/books/"+chapter.book+"/chapters/"+chapter.previous;
+        chapter.previous = chapter.book+"/chapters/"+chapter.previous;
 
         response.body = chapter;
 

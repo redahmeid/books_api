@@ -13,7 +13,7 @@ public class ChapterInserter {
         Session session = driver.session();
         String id = "";
 
-        StatementResult numberOfChapters = session.run("match (b:Book{id:'"+bookid+"'}) - [:PROPOSED_NEXT] -> (c:Chapter) return count(c) as total");
+        StatementResult numberOfChapters = session.run("match (b:Book{id:'"+bookid+"'}) - [:PROPOSED_NEXT*] -> (c:Chapter) return count(c) as total");
 
         while ( numberOfChapters.hasNext() ) {
 
