@@ -7,4 +7,6 @@ public class Chapter {
     public String text;
     public String writer;
     public String book;
+    public String previous;
+    public String next;
 }

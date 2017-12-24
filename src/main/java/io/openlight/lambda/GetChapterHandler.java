@@ -41,8 +41,14 @@ public class GetChapterHandler extends AbstractLambda {
             response.addLink(link);
         }
 
+        Link alternativeLink = new Link();
+        alternativeLink.url = "http://sandbox.api.openlight.io/books/"+chapter.book+"/chapters";
+        alternativeLink.rel = "propose_an_alternative_chapter";
+        response.addLink(alternativeLink);
+
         chapter.book = "http://sandbox.api.openlight.io/books/"+chapter.book;
         chapter.writer = "http://sandbox.api.openlight.io/users/"+chapter.writer;
+        chapter.previous = "http://sandbox.api.openlight.io/books/"+chapter.book+"/chapters/"+chapter.previous;
 
         response.body = chapter;
 
