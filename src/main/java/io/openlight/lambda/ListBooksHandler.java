@@ -13,6 +13,7 @@ import io.openlight.response.books.BooksResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         BooksResponse response = new BooksResponse();
 
-        ArrayList<Book> books = BookFinder.listBooks();
+        List<Book> books = BookFinder.listBooks();
 
 
         books.

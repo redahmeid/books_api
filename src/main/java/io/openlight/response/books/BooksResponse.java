@@ -4,10 +4,11 @@ import io.openlight.domain.Book;
 import io.openlight.response.Link;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BooksResponse {
 
-    public ArrayList<Book> body;
+    public List<Book> body;
 
     public ArrayList<Link> links;
 

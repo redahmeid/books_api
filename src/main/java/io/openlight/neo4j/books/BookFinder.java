@@ -6,7 +6,9 @@ import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Path;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class BookFinder {
 
@@ -31,7 +33,7 @@ public class BookFinder {
         return book;
     }
 
-    public static ArrayList<Book> listBooks(){
+    public static List<Book> listBooks(){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
@@ -39,19 +41,15 @@ public class BookFinder {
 
         ArrayList<Book> list = new ArrayList<>();
 
-        while ( result.hasNext() )
-        {
-            book = new Book();
-            Record record = result.next();
-            book.self = record.get("id").asString();
-            book.title = record.get("title").asString();
+        return result.list().parallelStream().map(r -> makeBook(r)).collect(Collectors.toList());
 
-            list.add(book);
+    }
 
-        }
+    private static Book makeBook(Record record){
+        Book book = new Book();
+        book.self = record.get("id").asString();
+        book.title = record.get("title").asString();
 
-
-
-        return list;
+        return book;
     }
 }

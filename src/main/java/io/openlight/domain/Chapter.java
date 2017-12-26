@@ -1,10 +1,11 @@
 package io.openlight.domain;
 
-public class Chapter {
+public class Chapter implements Domain{
 
     public String self;
-    public String followingOnFrom;
     public String text;
+
+
     public String writer;
     public String book;
     public String previous;
