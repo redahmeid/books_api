@@ -13,15 +13,24 @@ public class Response {
 
     public Map<String,String> actions;
 
-
-
-    public void addRelated(Link link){
+    public void addRelated(String rel, String url){
         if(related ==null) related = new TreeMap<>();
-        related.put(link.rel,link.url);
+        related.put(rel,url);
     }
 
-    public void addAction(Link link){
+    public void addAction(String rel, String url){
         if(actions ==null) actions = new TreeMap<>();
-        actions.put(link.rel,link.url);
+        actions.put(rel,url);
+    }
+
+
+    @Deprecated
+    public void addRelated(Link link){
+        addRelated(link.rel,link.url);
+    }
+
+    @Deprecated
+    public void addAction(Link link){
+       addAction(link.rel,link.url);
     }
 }

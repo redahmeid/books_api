@@ -34,7 +34,7 @@ public class GetStoryHandler extends AbstractLambda {
         response.self = "http://sandbox.api.openlight.io/books/"+chapter.book +"/chapters/"+domainResponse.id;
 
         // add some potential actions
-        if(BookFinder.getById(chapter.book).body.editor.equals(user.username)){
+        if(BookFinder.getById(chapter.book).get().body.editor.equals(user.username)){
             System.out.println("User is the editor of this book.");
             Link link = new Link();
             link.url = response.self+"/select";
