@@ -1,8 +1,7 @@
 package io.openlight.domain;
 
-public class Chapter implements Domain{
+public class Chapter extends Domain{
 
-    public String self;
     public String text;
 
 

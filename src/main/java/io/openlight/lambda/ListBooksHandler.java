@@ -5,10 +5,12 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
+import io.openlight.MediaTypes;
 import io.openlight.domain.Book;
 import io.openlight.neo4j.books.BookFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
+import io.openlight.response.Response;
 import io.openlight.response.books.BooksResponse;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
 
 
-        BooksResponse response = new BooksResponse();
+        Response response = new Response();
 
         List<Book> books = BookFinder.listBooks();
 
@@ -44,14 +46,13 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
         link.url = "http://sandbox.api.openlight.io/books";
         link.rel = "start_a_book";
 
-        Links links = new Links();
-        links.addLink(link);
 
-        response.addLink(link);
+
+        response.addAction(link);
         String bookJson = gson.toJson(response);
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
+        headers.put("Content-Type", MediaTypes.BOOKS.type());
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
 

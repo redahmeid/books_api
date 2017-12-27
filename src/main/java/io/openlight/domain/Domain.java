@@ -1,4 +1,7 @@
 package io.openlight.domain;
 
-public interface Domain {
+public class Domain {
+
+    public String id;
+
 }
