@@ -15,6 +15,7 @@ import io.openlight.response.Response;
 import io.openlight.response.books.BookResponse;
 import io.openlight.response.Link;
 import io.openlight.response.Links;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,14 +34,14 @@ public class GetBookHandler extends AbstractLambda {
         Optional<DomainResponse<Book>> domainResponse = BookFinder.getById(book_id);
 
 
-        return domainResponse.map(r -> buildBookResponse(r)).orElse(new APIGatewayProxyResponseEvent().withStatusCode(404));
+        return domainResponse.map(r -> buildBookResponse(r)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
     }
 
     private APIGatewayProxyResponseEvent buildBookResponse(DomainResponse<Book> domainResponse){
 
         Response response = new Response();
 
-        Book book = (Book)domainResponse.body;
+        Book book = domainResponse.data;
         String editorLink = "https://sandbox.api.openlight.io/users/"+book.editor;
         book.editor = editorLink;
 
@@ -55,7 +56,7 @@ public class GetBookHandler extends AbstractLambda {
         response.addAction(link.rel,link.url);
 
         response.self = "http://sandbox.api.openlight.io/books/"+domainResponse.id;
-        response.body = book;
+        response.data = book;
         String bookJson = gson.toJson(response);
 
 

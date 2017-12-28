@@ -17,17 +17,18 @@ public class BookFinder {
     public static Optional<DomainResponse<Book>> getById(String book_id){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
-        DomainResponse domainResponse = new DomainResponse();
+        DomainResponse domainResponse = null;
         Session session = driver.session();
         StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) RETURN n.username AS editor, b.title AS title, b.id AS book_id");
         while ( findEditor.hasNext() )
         {
+            if(domainResponse==null) domainResponse = new DomainResponse();
             book = new Book();
             Record record = findEditor.next();
             domainResponse.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
-            domainResponse.body = book;
+            domainResponse.data = book;
 
         }
 
@@ -54,7 +55,7 @@ public class BookFinder {
         Book book = new Book();
         response.id = record.get("id").asString();
         book.title = record.get("title").asString();
-        response.body = book;
+        response.data = book;
         return response;
     }
 }

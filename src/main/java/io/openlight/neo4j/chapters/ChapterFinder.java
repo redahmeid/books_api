@@ -25,7 +25,7 @@ public class ChapterFinder {
             chapter.text = record.get("thisChapter").asNode().get("text").asString();
             chapter.writer = record.get("writer").asString();
             chapter.book = record.get("book").asString();
-            response.body = chapter;
+            response.data = chapter;
         }
 
         session.close();

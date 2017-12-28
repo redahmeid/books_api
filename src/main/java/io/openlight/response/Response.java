@@ -6,7 +6,7 @@ import java.util.TreeMap;
 public class Response {
 
     public String self;
-    public Object body;
+    public Object data;
     public String error;
 
     public Map<String,String> related;
