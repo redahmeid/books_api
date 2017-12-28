@@ -34,7 +34,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
         List<DomainResponse<Book>> books = BookFinder.listBooks();
 
 
-        books.
+        List<Response> listOfBooks = books.
                 parallelStream().
                 map(r -> {
                     Response internalResponse = new Response();
@@ -46,7 +46,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
 
 
-        response.data = books;
+        response.data = listOfBooks;
 
         Link link = new Link();
         link.url = "http://sandbox.api.openlight.io/books";
