@@ -64,7 +64,7 @@ public class GetBookHandler extends AbstractLambda {
 
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", response.type.type());
+        headers.put("Content-Type", response.type);
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
     }

@@ -73,7 +73,7 @@ public class GetChapterHandler extends AbstractLambda {
         String responseJson = gson.toJson(response);
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", response.type.toString());
+        headers.put("Content-Type", response.type);
 
         return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(200);
     }
