@@ -63,7 +63,7 @@ public class ChapterFinder {
         List<Chapter> list = null;
         Session session = driver.session();
 
-        String cypher = "MATCH (book:Book{id:'"+bookId+"'}) - [:NEXT] -> (story) return chapter.id as id";
+        String cypher = "MATCH (book:Book{id:'"+bookId+"'}) - [:NEXT] -> (chapter) return chapter.id as id";
         StatementResult chapterResult = session.run( cypher);
 
         list = chapterResult.list().parallelStream()

@@ -60,7 +60,7 @@ public class GetBookHandler extends AbstractLambda {
 
 
         Optional<List<Chapter>> chapters = ChapterFinder.getStoryForBook(book.id);
-        
+
         chapters.map(r -> bookAPI.story = makeEmbeddedChapters(r,baseUrl));
 
 
