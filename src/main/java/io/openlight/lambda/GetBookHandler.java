@@ -39,7 +39,7 @@ public class GetBookHandler extends AbstractLambda {
 
     private APIGatewayProxyResponseEvent buildBookResponse(Book book){
 
-        Response response = new Response();
+        Response response = new Response(MediaTypes.BOOK);
 
         String editorLink = "https://sandbox.api.openlight.io/users/"+book.editor;
         book.editor = editorLink;
@@ -60,7 +60,7 @@ public class GetBookHandler extends AbstractLambda {
 
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", MediaTypes.BOOK.type());
+        headers.put("Content-Type", response.type.type());
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
     }

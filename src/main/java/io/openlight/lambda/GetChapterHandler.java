@@ -28,7 +28,7 @@ public class GetChapterHandler extends AbstractLambda {
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         String chapterId = input.getPathParameters().get("chapterid");
 
-        Response response = new Response();
+        Response response = new Response(MediaTypes.CHAPTER);
 
 
 
@@ -56,7 +56,7 @@ public class GetChapterHandler extends AbstractLambda {
                 .map(r -> buildBookResponse(r)).ifPresent(b -> chapterResponse.book = b);
 
         io.openlight.response.users.User userAPI = new io.openlight.response.users.User();
-        Response<io.openlight.response.users.User> userResponse = new Response<>();
+        Response<io.openlight.response.users.User> userResponse = new Response<>(MediaTypes.USER);
         userAPI.username = chapter.writer;
         userResponse.self = "http://sandbox.api.openlight.io/users/"+chapter.writer;
         userResponse.data = userAPI;
@@ -70,11 +70,10 @@ public class GetChapterHandler extends AbstractLambda {
 
 
         response.data = chapterResponse;
-
         String responseJson = gson.toJson(response);
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", MediaTypes.CHAPTER.type());
+        headers.put("Content-Type", response.type.toString());
 
         return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(200);
     }
@@ -82,7 +81,7 @@ public class GetChapterHandler extends AbstractLambda {
     private Response<io.openlight.response.books.Book> buildBookResponse(Book book){
         io.openlight.response.books.Book bookAPI = new io.openlight.response.books.Book();
         bookAPI.title = book.title;
-        Response<io.openlight.response.books.Book> bookResponse = new Response<>();
+        Response<io.openlight.response.books.Book> bookResponse = new Response<>(MediaTypes.BOOK);
         bookResponse.data = bookAPI;
         bookResponse.self = "http://sandbox.api.openlight.io/books/"+book.id;
 

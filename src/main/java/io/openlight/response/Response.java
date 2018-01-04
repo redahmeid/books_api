@@ -1,5 +1,7 @@
 package io.openlight.response;
 
+import io.openlight.MediaTypes;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -7,7 +9,12 @@ public class Response<E> {
 
     public String self;
     public E data;
+    public MediaTypes type;
     public String error;
+
+    public Response(MediaTypes type){
+        this.type = type;
+    }
 
     public Map<String,String> related;
 

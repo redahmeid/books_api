@@ -5,7 +5,7 @@ import io.openlight.response.Response;
 import io.openlight.response.books.Book;
 import io.openlight.response.users.User;
 
-public class ChapterResponse {
+public class ChapterResponse{
 
 
     public Response<User> writer;

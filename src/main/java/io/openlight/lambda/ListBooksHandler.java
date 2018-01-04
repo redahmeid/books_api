@@ -29,7 +29,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
 
 
-        Response response = new Response();
+        Response response = new Response(MediaTypes.BOOKS);
 
         List<DomainResponse<Book>> books = BookFinder.listBooks();
 
@@ -37,7 +37,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
         List<Response> listOfBooks = books.
                 parallelStream().
                 map(r -> {
-                    Response internalResponse = new Response();
+                    Response internalResponse = new Response(MediaTypes.BOOK);
                     internalResponse.self = "http://sandbox.api.openlight.io/books/"+r.id;
                     internalResponse.data = r.data;
                     return internalResponse;
@@ -58,7 +58,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
         String bookJson = gson.toJson(response);
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", MediaTypes.BOOKS.type());
+        headers.put("Content-Type", response.type.type());
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
 
