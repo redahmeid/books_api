@@ -16,6 +16,7 @@ io/openlight/response/Error.class
 io/openlight/lambda/GetChapterHandler.class
 io/openlight/response/ErrorResponse.class
 io/openlight/neo4j/books/BookFinder.class
+io/openlight/response/books/Book.class
 io/openlight/response/Links.class
 io/openlight/domain/User.class
 io/openlight/domain/Books.class
@@ -25,5 +26,6 @@ io/openlight/lambda/CreateFirstChapterHandler.class
 io/openlight/domain/Body.class
 io/openlight/response/Response.class
 io/openlight/domain/Chapter.class
+io/openlight/response/users/User.class
 io/openlight/neo4j/chapters/ChapterInserter.class
 io/openlight/lambda/GetBookHandler.class
