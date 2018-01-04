@@ -69,7 +69,7 @@ public class GetChapterHandler extends AbstractLambda {
                 .orElseGet(() ->buildPreviousBookLink(baseURL) ));
 
 
-        response.data = chapter;
+        response.data = chapterResponse;
 
         String responseJson = gson.toJson(response);
 

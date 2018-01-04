@@ -13,7 +13,7 @@ public class ChapterFinder {
         Chapter chapter = null;
         Session session = driver.session();
 
-        String cypher = "MATCH (thisChapter:Chapter{id:'"+chapterId+"'}) MATCH (previousChapter) - [:PROPOSED_NEXT] -> (thisChapter) MATCH path = (book:Book)-[:PROPOSED_NEXT*]->(thisChapter) MATCH (writer:User) - [:WROTE] -> (thisChapter) return thisChapter, previousChapter.id as previous, book.id as book, writer.username as writer";
+        String cypher = "MATCH (thisChapter:Chapter{id:'"+chapterId+"'}) MATCH (previousChapter:Chapter) - [:PROPOSED_NEXT] -> (thisChapter)  MATCH (writer:User) - [:WROTE] -> (thisChapter) return thisChapter, previousChapter.id as previous, book.id as book, writer.username as writer";
         StatementResult chapterResult = session.run( cypher);
         while ( chapterResult.hasNext() )
         {
@@ -39,7 +39,7 @@ public class ChapterFinder {
         DomainResponse response = null;
         Session session = driver.session();
 
-        String cypher = "MATCH (book:Book{id:'nextstop'}) - [:NEXT] -> (chapter) return chapter.id as id";
+        String cypher = "MATCH (book:Book{id:'"+bookId+"'}) - [:NEXT] -> (chapter) return chapter.id as id";
         StatementResult chapterResult = session.run( cypher);
         while ( chapterResult.hasNext() )
         {
