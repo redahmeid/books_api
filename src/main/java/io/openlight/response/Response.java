@@ -8,8 +8,9 @@ import java.util.TreeMap;
 public class Response<E> {
 
     public String self;
-    public E data;
     public MediaTypes type;
+    public E data;
+
     public String error;
 
     public Response(MediaTypes type){

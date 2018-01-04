@@ -21,7 +21,7 @@ public class ChapterFinder {
             Record record = chapterResult.next();
             chapter.id = record.get("thisChapter").asNode().get("id").asString();
             chapter.book = record.get("book").asString();
-            chapter.previous = Optional.ofNullable(record.get("previous").asString());
+            chapter.previous = record.get("previous").isNull()? Optional.ofNullable(null):Optional.ofNullable(record.get("previous").asString());
             chapter.text = record.get("thisChapter").asNode().get("text").asString();
             chapter.writer = record.get("writer").asString();
 

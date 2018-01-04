@@ -19,6 +19,8 @@ public enum MediaTypes {
         return type;
     }
 
-
-
+    @Override
+    public String toString() {
+        return this.type();
+    }
 }

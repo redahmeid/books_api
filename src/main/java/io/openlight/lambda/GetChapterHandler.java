@@ -65,7 +65,7 @@ public class GetChapterHandler extends AbstractLambda {
 
         response.addRelated(
                 chapter.previous
-                .map(r-> buildPreviousChapterLink(r,baseURL))
+                .map(r -> buildPreviousChapterLink(r,baseURL))
                 .orElseGet(() ->buildPreviousBookLink(baseURL) ));
 
 

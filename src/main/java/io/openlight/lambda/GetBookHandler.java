@@ -40,10 +40,14 @@ public class GetBookHandler extends AbstractLambda {
     private APIGatewayProxyResponseEvent buildBookResponse(Book book){
 
         Response response = new Response(MediaTypes.BOOK);
+        io.openlight.response.books.Book bookAPI = new io.openlight.response.books.Book();
 
-        String editorLink = "https://sandbox.api.openlight.io/users/"+book.editor;
-        book.editor = editorLink;
-
+        Response<io.openlight.response.users.User> userResponse = new Response<>(MediaTypes.USER);
+        io.openlight.response.users.User user = new io.openlight.response.users.User();
+        user.username = book.editor;
+        userResponse.self = "https://sandbox.api.openlight.io/users/"+book.editor;
+        userResponse.data = user;
+        bookAPI.editor = userResponse;
         Optional<DomainResponse> firstChapterResponse = ChapterFinder.getFirstChapterIdForBook(book.id);
         firstChapterResponse.ifPresent(r ->
                 response.addRelated("next_chapter","https://sandbox.api.openlight.io/books/"+book.id+"/chapters/"+r.id));
@@ -55,7 +59,7 @@ public class GetBookHandler extends AbstractLambda {
         response.addAction(link.rel,link.url);
 
         response.self = "http://sandbox.api.openlight.io/books/"+book.id;
-        response.data = book;
+        response.data = bookAPI;
         String bookJson = gson.toJson(response);
 
 
