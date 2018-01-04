@@ -1,6 +1,7 @@
 io/openlight/response/chapters/ChapterResponse.class
 io/openlight/lambda/GetStoryHandler.class
 io/openlight/domain/Domain.class
+io/openlight/domain/Story.class
 io/openlight/domain/Book.class
 io/openlight/domain/DomainResponse.class
 io/openlight/neo4j/books/Inserter.class
@@ -14,6 +15,7 @@ io/openlight/lambda/CreateBookHandler.class
 io/openlight/response/books/BooksResponse.class
 io/openlight/response/Error.class
 io/openlight/lambda/GetChapterHandler.class
+io/openlight/response/chapters/Story.class
 io/openlight/response/ErrorResponse.class
 io/openlight/neo4j/books/BookFinder.class
 io/openlight/response/books/Book.class
