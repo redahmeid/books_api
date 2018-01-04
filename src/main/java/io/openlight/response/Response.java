@@ -8,13 +8,13 @@ import java.util.TreeMap;
 public class Response<E> {
 
     public String self;
-    public MediaTypes type;
+    public String type;
     public E data;
 
     public String error;
 
     public Response(MediaTypes type){
-        this.type = type;
+        this.type = type.type();
     }
 
     public Map<String,String> related;
