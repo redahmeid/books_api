@@ -3,10 +3,10 @@ package io.openlight.response;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Response {
+public class Response<E> {
 
     public String self;
-    public Object data;
+    public E data;
     public String error;
 
     public Map<String,String> related;
@@ -24,12 +24,10 @@ public class Response {
     }
 
 
-    @Deprecated
     public void addRelated(Link link){
         addRelated(link.rel,link.url);
     }
 
-    @Deprecated
     public void addAction(Link link){
        addAction(link.rel,link.url);
     }

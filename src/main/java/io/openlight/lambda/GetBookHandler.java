@@ -31,31 +31,30 @@ public class GetBookHandler extends AbstractLambda {
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         String book_id = input.getPathParameters().get("bookid");
 
-        Optional<DomainResponse<Book>> domainResponse = BookFinder.getById(book_id);
+        Optional<Book> book = BookFinder.getById(book_id);
 
 
-        return domainResponse.map(r -> buildBookResponse(r)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
+        return book.map(r -> buildBookResponse(r)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
     }
 
-    private APIGatewayProxyResponseEvent buildBookResponse(DomainResponse<Book> domainResponse){
+    private APIGatewayProxyResponseEvent buildBookResponse(Book book){
 
         Response response = new Response();
 
-        Book book = domainResponse.data;
         String editorLink = "https://sandbox.api.openlight.io/users/"+book.editor;
         book.editor = editorLink;
 
-        Optional<DomainResponse> firstChapterResponse = ChapterFinder.getFirstChapterIdForBook(domainResponse.id);
+        Optional<DomainResponse> firstChapterResponse = ChapterFinder.getFirstChapterIdForBook(book.id);
         firstChapterResponse.ifPresent(r ->
-                response.addRelated("next_chapter","https://sandbox.api.openlight.io/books/"+domainResponse.id+"/chapters/"+r.id));
+                response.addRelated("next_chapter","https://sandbox.api.openlight.io/books/"+book.id+"/chapters/"+r.id));
 
 
         Link link = new Link();
-        link.url = "http://sandbox.api.openlight.io/books/"+domainResponse.id+"/chapters";
+        link.url = "http://sandbox.api.openlight.io/books/"+book.id+"/chapters";
         link.rel = "propose_a_chapter";
         response.addAction(link.rel,link.url);
 
-        response.self = "http://sandbox.api.openlight.io/books/"+domainResponse.id;
+        response.self = "http://sandbox.api.openlight.io/books/"+book.id;
         response.data = book;
         String bookJson = gson.toJson(response);
 

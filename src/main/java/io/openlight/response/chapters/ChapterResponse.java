@@ -1,22 +1,15 @@
 package io.openlight.response.chapters;
 
-import io.openlight.domain.Chapter;
-import io.openlight.response.Link;
 
-import java.util.ArrayList;
+import io.openlight.response.Response;
+import io.openlight.response.books.Book;
+import io.openlight.response.users.User;
 
 public class ChapterResponse {
 
-    public Chapter body;
 
-    public ArrayList<Link> links;
+    public Response<User> writer;
+    public Response<Book> book;
+    public String text;
 
-
-    public void addLink(Link link){
-        if(links ==null) links = new ArrayList<>();
-        links.add(link);
-    }
-
-
-    public String self;
 }

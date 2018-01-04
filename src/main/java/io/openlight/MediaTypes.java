@@ -3,10 +3,12 @@ package io.openlight;
 public enum MediaTypes {
 
     CORE(""),
-    CHAPTER("chapter"),
-    BOOK("book"),
-    CHAPTERS("chapters"),
-    BOOKS("books");
+    CHAPTER(";chapter"),
+    BOOK(";book"),
+    CHAPTERS(";chapters"),
+    BOOKS(";books"),
+    USER(";user");
+
 
     private String type;
     MediaTypes(String type){
