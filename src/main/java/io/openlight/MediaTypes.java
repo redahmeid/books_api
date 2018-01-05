@@ -5,7 +5,7 @@ public enum MediaTypes {
     CORE(""),
     CHAPTER(";chapter"),
     BOOK(";book"),
-    CHAPTERS(";story"),
+    CHAPTERS(";chapters"),
     BOOKS(";books"),
     USER(";user");
 

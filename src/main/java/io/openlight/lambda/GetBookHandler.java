@@ -65,7 +65,7 @@ public class GetBookHandler extends AbstractLambda {
 
 
         Link link = new Link();
-        link.url = baseUrl+"/story";
+        link.url = baseUrl+"/chapters";
         link.rel = "propose_a_chapter";
         response.addAction(link.rel,link.url);
 
@@ -87,7 +87,7 @@ public class GetBookHandler extends AbstractLambda {
 
         chaptersResponse.self = baseUrl+"/story";
 
-        chaptersAPI.totalNumber = chapters.size();
+        chaptersAPI.numberOfChapters = chapters.size();
 
         chaptersResponse.data = chaptersAPI;
 
