@@ -124,6 +124,6 @@ public class GetChapterHandler extends AbstractLambda {
         return link;
     }
 
-    
+
 
 }

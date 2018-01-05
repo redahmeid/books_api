@@ -103,7 +103,7 @@ Resources:
             GetEvent:
               Type: Api
               Properties:
-                Path: /{bookid}/story
+                Path: /{bookid}/chapters
                 Method: post
   GetChapter:
           Type: AWS::Serverless::Function
@@ -123,7 +123,7 @@ Resources:
               GetEvent:
                 Type: Api
                 Properties:
-                  Path: /{bookid}/story/{chapterid}
+                  Path: /{bookid}/chapters/{chapterid}
                   Method: get
 
   SelectChapter:
@@ -144,5 +144,5 @@ Resources:
               GetEvent:
                 Type: Api
                 Properties:
-                  Path: /{bookid}/story/{chapterid}/select
+                  Path: /{bookid}/chapters/{chapterid}/select
                   Method: put
