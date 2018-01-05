@@ -31,7 +31,6 @@ public class ChapterInserter {
         return id;
     }
 
-    // match (a:Book{id:'nextstop'}) OPTIONAL MATCH path = (a)-[:NEXT*]->(b) WITH  coalesce(last(nodes(path)),a) as begin MATCH (writer:User{username:'reda'}) CREATE (begin)-[:PROPOSED_NEXT]->(nextChapter:Chapter{id:'nextstop-1',text:"my next proposal"}) MERGE (writer)-[:WROTE]->(nextChapter)
 
 
     public static void selectChapter(String chapterId){

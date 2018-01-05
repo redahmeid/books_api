@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import io.openlight.MediaTypes;
 import io.openlight.domain.Book;
 import io.openlight.domain.Chapter;
-import io.openlight.domain.DomainResponse;
 import io.openlight.domain.User;
 import io.openlight.neo4j.books.BookFinder;
 import io.openlight.neo4j.chapters.ChapterFinder;
@@ -54,12 +53,11 @@ public class GetBookHandler extends AbstractLambda {
         bookAPI.editor = userResponse;
         bookAPI.title = book.title;
 
-        Optional<DomainResponse> firstChapterResponse = ChapterFinder.getFirstChapterIdForBook(book.id);
-        firstChapterResponse.ifPresent(r ->
-                response.addRelated("next_chapter",baseUrl+"/chapters/"+r.id));
-
 
         Optional<List<Chapter>> chapters = ChapterFinder.getStoryForBook(book.id);
+
+        chapters.ifPresent(r ->
+                response.addRelated("next_chapter",baseUrl+"/chapters/"+r.get(0).id));
 
         chapters.map(r -> bookAPI.story = makeEmbeddedChapters(r,baseUrl));
 
@@ -79,6 +77,8 @@ public class GetBookHandler extends AbstractLambda {
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
     }
+
+
 
     private Response<Story> makeEmbeddedChapters(List<Chapter> chapters,String baseUrl){
 

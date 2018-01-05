@@ -30,7 +30,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
 
         Response response = new Response(MediaTypes.BOOKS);
-
+        response.self = "http://sandbox.api.openlight.io/books";
         List<DomainResponse<Book>> books = BookFinder.listBooks();
 
 

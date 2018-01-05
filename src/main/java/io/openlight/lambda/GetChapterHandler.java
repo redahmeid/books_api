@@ -13,6 +13,7 @@ import io.openlight.neo4j.chapters.ChapterFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Response;
 import io.openlight.response.chapters.ChapterResponse;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +29,15 @@ public class GetChapterHandler extends AbstractLambda {
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
         String chapterId = input.getPathParameters().get("chapterid");
 
+        Optional<Chapter> chapter = ChapterFinder.getById(chapterId);
+
+        return chapter.map(r -> buildResponse(r,user)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
+    }
+
+    private APIGatewayProxyResponseEvent buildResponse(Chapter chapter,User user){
         Response response = new Response(MediaTypes.CHAPTER);
-
-
-
-        Chapter chapter = ChapterFinder.getById(chapterId);
-        String baseURL = "http://sandbox.api.openlight.io/books/"+chapter.book;
-
         ChapterResponse chapterResponse = new ChapterResponse();
-
+        String baseURL = "http://sandbox.api.openlight.io/books/"+chapter.book;
 
         response.self = baseURL +"/chapters/"+chapter.id;
 
@@ -65,8 +66,8 @@ public class GetChapterHandler extends AbstractLambda {
 
         response.addRelated(
                 chapter.previous
-                .map(r -> buildPreviousChapterLink(r,baseURL))
-                .orElseGet(() ->buildPreviousBookLink(baseURL) ));
+                        .map(r -> buildPreviousChapterLink(r,baseURL))
+                        .orElseGet(() ->buildPreviousBookLink(baseURL) ));
 
 
         response.data = chapterResponse;
@@ -75,9 +76,8 @@ public class GetChapterHandler extends AbstractLambda {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", response.type);
 
-        return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(200);
+        return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(HttpStatus.OK.value());
     }
-
     private Response<io.openlight.response.books.Book> buildBookResponse(Book book){
         io.openlight.response.books.Book bookAPI = new io.openlight.response.books.Book();
         bookAPI.title = book.title;
@@ -123,5 +123,7 @@ public class GetChapterHandler extends AbstractLambda {
 
         return link;
     }
+
+    
 
 }
