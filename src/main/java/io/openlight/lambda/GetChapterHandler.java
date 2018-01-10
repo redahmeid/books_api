@@ -76,6 +76,7 @@ public class GetChapterHandler extends AbstractLambda {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", response.type);
 
+
         return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(HttpStatus.OK.value());
     }
     private Response<io.openlight.response.books.Book> buildBookResponse(Book book){

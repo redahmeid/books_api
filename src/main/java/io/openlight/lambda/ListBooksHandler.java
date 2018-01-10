@@ -59,6 +59,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", response.type);
+        headers.put("access-control-allow-origin","*");
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
 
