@@ -6,5 +6,7 @@ public class Book extends Domain{
     public String image;
     public String editor;
     public String id;
+    public String category;
+    public String synopsis;
 
 }

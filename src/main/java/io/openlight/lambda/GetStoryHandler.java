@@ -15,6 +15,7 @@ import io.openlight.response.Response;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class GetStoryHandler extends AbstractLambda {
@@ -23,7 +24,7 @@ public class GetStoryHandler extends AbstractLambda {
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, Optional<User> user) {
         String chapterId = input.getPathParameters().get("chapterid");
 
 

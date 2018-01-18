@@ -28,10 +28,10 @@ public class GetBookHandler extends AbstractLambda {
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, Optional<User> user) {
         String book_id = input.getPathParameters().get("bookid");
 
-        String baseUrl = "http://sandbox.api.openlight.io/books/"+book_id;
+        String baseUrl = "https://sandbox.api.openlight.io/books/"+book_id;
         Optional<Book> book = BookFinder.getById(book_id);
 
 

@@ -9,9 +9,11 @@ import io.openlight.domain.User;
 import io.openlight.neo4j.books.Inserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class CreateBookHandler extends AbstractLambda{
@@ -20,10 +22,13 @@ public class CreateBookHandler extends AbstractLambda{
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, Optional<User> user) {
         Book book = gson.fromJson(input.getBody(),Book.class);
 
-        String id = Inserter.createBook(book.title,book.image,user.username);
+        if(!user.isPresent())
+            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.UNAUTHORIZED.value());
+
+        String id = Inserter.createBook(book.title,book.image,user.get().username);
 
         Link link = new Link();
         link.location = "http://sandbox.api.openlight.io/books/"+id;

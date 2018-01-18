@@ -26,7 +26,7 @@ public class GetChapterHandler extends AbstractLambda {
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context,Optional<User> user) {
         String chapterId = input.getPathParameters().get("chapterid");
 
         Optional<Chapter> chapter = ChapterFinder.getById(chapterId);
@@ -34,22 +34,21 @@ public class GetChapterHandler extends AbstractLambda {
         return chapter.map(r -> buildResponse(r,user)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
     }
 
-    private APIGatewayProxyResponseEvent buildResponse(Chapter chapter,User user){
+    private APIGatewayProxyResponseEvent buildResponse(Chapter chapter,Optional<User> user){
         Response response = new Response(MediaTypes.CHAPTER);
         ChapterResponse chapterResponse = new ChapterResponse();
-        String baseURL = "http://sandbox.api.openlight.io/books/"+chapter.book;
+        String baseURL = "https://sandbox.api.openlight.io/books/"+chapter.book;
 
         response.self = baseURL +"/chapters/"+chapter.id;
 
         Optional<Book> bookOptional = BookFinder.getById(chapter.book);
-
 
         bookOptional
                 .flatMap(r -> buildSelectLinkIfOK(response.self,r,user))
                 .ifPresent(b -> response.addAction(b));
 
 
-        buildProposeNewChapterLink(chapter)
+        buildProposeNewChapterLink(chapter,user)
                 .ifPresent(b -> response.addAction(b));
 
 
@@ -89,9 +88,10 @@ public class GetChapterHandler extends AbstractLambda {
         return bookResponse;
     }
 
-    private Optional<Link> buildSelectLinkIfOK(String url, Book book, User user){
+    private Optional<Link> buildSelectLinkIfOK(String url, Book book, Optional<User> user){
         Link link = null;
-        if(book.editor.equals(user.username)){
+
+        if(book.editor.equals(user.map(response -> response.username).orElse(null))){
             link = new Link();
             link.url = url+"/select";
             link.rel = "select_this_chapter";
@@ -100,11 +100,16 @@ public class GetChapterHandler extends AbstractLambda {
         return Optional.ofNullable(link);
     }
 
-    private Optional<Link> buildProposeNewChapterLink(Chapter chapter){
+    private Optional<Link> buildProposeNewChapterLink(Chapter chapter,Optional<User> user){
 
-        Link link = new Link();
-        link.url = "http://sandbox.api.openlight.io/books/"+chapter.book+"/chapters";
-        link.rel = "propose_an_alternative_chapter";
+        Link link = null;
+
+        if(user.isPresent()){
+            link = new Link();
+            link.url = "http://sandbox.api.openlight.io/books/"+chapter.book+"/chapters";
+            link.rel = "propose_an_alternative_chapter";
+        }
+
 
         return Optional.ofNullable(link);
     }

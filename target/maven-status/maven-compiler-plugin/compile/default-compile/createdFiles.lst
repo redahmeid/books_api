@@ -31,3 +31,4 @@ io/openlight/domain/Chapter.class
 io/openlight/response/users/User.class
 io/openlight/neo4j/chapters/ChapterInserter.class
 io/openlight/lambda/GetBookHandler.class
+io/openlight/auth/Auth.class

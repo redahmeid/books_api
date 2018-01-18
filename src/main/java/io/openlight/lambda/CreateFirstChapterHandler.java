@@ -9,9 +9,11 @@ import io.openlight.domain.User;
 import io.openlight.neo4j.chapters.ChapterInserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
+import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class CreateFirstChapterHandler extends AbstractLambda{
@@ -20,13 +22,17 @@ public class CreateFirstChapterHandler extends AbstractLambda{
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, Optional<User> user) {
         Chapter chapter = gson.fromJson(input.getBody(),Chapter.class);
+
+        if(!user.isPresent())
+            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_UNAUTHORIZED);
+
         ErrorResponse errorResponse = new ErrorResponse();
         String bookid = input.getPathParameters().get("bookid");
 
 
-        String id = ChapterInserter.proposeAChapter(bookid, chapter.text,user.username);
+        String id = ChapterInserter.proposeAChapter(bookid, chapter.text,user.get().username);
 
 
         Link link = new Link();

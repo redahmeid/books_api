@@ -4,14 +4,18 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
+import io.openlight.domain.Book;
 import io.openlight.domain.Chapter;
 import io.openlight.domain.User;
+import io.openlight.neo4j.books.BookFinder;
 import io.openlight.neo4j.chapters.ChapterInserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
+import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class SelectChapterHandler extends AbstractLambda{
@@ -20,23 +24,36 @@ public class SelectChapterHandler extends AbstractLambda{
 
 
     @Override
-    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, User user) {
-        Chapter chapter = gson.fromJson(input.getBody(),Chapter.class);
+    public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context,Optional<User> user) {
+
         ErrorResponse errorResponse = new ErrorResponse();
         String chapterId = input.getPathParameters().get("chapterid");
 
         String bookId = input.getPathParameters().get("bookid");
 
-        ChapterInserter.selectChapter(chapterId);
+        return BookFinder.getById(bookId)
+                .map(response -> selectChapter(user,chapterId,response)).get();
+    }
 
+    private APIGatewayProxyResponseEvent selectChapter(Optional<User> userOptional, String chapterId,Book book){
 
-        Link link = new Link();
-        link.location = "http://sandbox.api.openlight.io/books/"+bookId+"/story/"+chapterId;
-        String linkJson = gson.toJson(link);
+        APIGatewayProxyResponseEvent response = null;
+        if(isAuthorised(userOptional, book)) {
+            ChapterInserter.selectChapter(chapterId);
+            Link link = new Link();
+            link.location = "http://sandbox.api.openlight.io/books/" + book.id + "/story/" + chapterId;
+            String linkJson = gson.toJson(link);
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Content-Type", "application/json");
+            response = new APIGatewayProxyResponseEvent().withBody(linkJson).withHeaders(headers).withStatusCode(201);
+        }else{
+            response = new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_UNAUTHORIZED);
+        }
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
+        return response;
+    }
 
-        return new APIGatewayProxyResponseEvent().withBody(linkJson).withHeaders(headers).withStatusCode(201);
+    private boolean isAuthorised(Optional<User> userOptional, Book book){
+        return userOptional.map(r -> book.editor.equals(r.username)).orElse(false);
     }
 }
