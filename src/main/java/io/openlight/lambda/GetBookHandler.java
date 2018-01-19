@@ -16,10 +16,7 @@ import io.openlight.response.Link;
 import io.openlight.response.chapters.Story;
 import org.apache.http.HttpStatus;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 public class GetBookHandler extends AbstractLambda {
@@ -29,13 +26,16 @@ public class GetBookHandler extends AbstractLambda {
 
     @Override
     public APIGatewayProxyResponseEvent handle(APIGatewayProxyRequestEvent input, Context context, Optional<User> user) {
+        long start = new Date().getTime();
         String book_id = input.getPathParameters().get("bookid");
 
         String baseUrl = "https://sandbox.api.openlight.io/books/"+book_id;
         Optional<Book> book = BookFinder.getById(book_id);
 
-
-        return book.map(r -> buildBookResponse(r,baseUrl)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_NOT_FOUND));
+        APIGatewayProxyResponseEvent response = book.map(r -> buildBookResponse(r,baseUrl)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_NOT_FOUND));
+        long end = new Date().getTime();
+        System.out.println("Time it takes to get book = "+(end-start));
+        return response;
     }
 
     private APIGatewayProxyResponseEvent buildBookResponse(Book book,String baseUrl){

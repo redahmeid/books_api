@@ -4,6 +4,7 @@ import io.openlight.domain.Book;
 import org.neo4j.driver.v1.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 public class BookFinder {
 
     public static Optional<Book> getById(String book_id){
+        long start = new Date().getTime();
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
@@ -29,6 +31,8 @@ public class BookFinder {
         session.close();
         driver.close();
 
+        long end = new Date().getTime();
+        System.out.println("time it take to retrieve the book from NEO4J = "+(end-start));
         return Optional.ofNullable(book);
     }
 
