@@ -13,7 +13,7 @@ import io.openlight.neo4j.chapters.ChapterFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Response;
 import io.openlight.response.chapters.ChapterResponse;
-import org.springframework.http.HttpStatus;
+import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class GetChapterHandler extends AbstractLambda {
 
         Optional<Chapter> chapter = ChapterFinder.getById(chapterId);
 
-        return chapter.map(r -> buildResponse(r,user)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.NOT_FOUND.value()));
+        return chapter.map(r -> buildResponse(r,user)).orElseGet(() ->new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_NOT_FOUND));
     }
 
     private APIGatewayProxyResponseEvent buildResponse(Chapter chapter,Optional<User> user){
@@ -76,7 +76,7 @@ public class GetChapterHandler extends AbstractLambda {
         headers.put("Content-Type", response.type);
 
 
-        return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(HttpStatus.OK.value());
+        return new APIGatewayProxyResponseEvent().withBody(responseJson).withHeaders(headers).withStatusCode(HttpStatus.SC_OK);
     }
     private Response<io.openlight.response.books.Book> buildBookResponse(Book book){
         io.openlight.response.books.Book bookAPI = new io.openlight.response.books.Book();

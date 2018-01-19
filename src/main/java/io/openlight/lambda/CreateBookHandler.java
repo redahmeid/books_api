@@ -9,7 +9,7 @@ import io.openlight.domain.User;
 import io.openlight.neo4j.books.Inserter;
 import io.openlight.response.ErrorResponse;
 import io.openlight.response.Link;
-import org.springframework.http.HttpStatus;
+import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ public class CreateBookHandler extends AbstractLambda{
         Book book = gson.fromJson(input.getBody(),Book.class);
 
         if(!user.isPresent())
-            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.UNAUTHORIZED.value());
+            return new APIGatewayProxyResponseEvent().withStatusCode(HttpStatus.SC_UNAUTHORIZED);
 
         String id = Inserter.createBook(book.title,book.image,user.get().username);
 
