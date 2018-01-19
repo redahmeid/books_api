@@ -1,6 +1,6 @@
 package io.openlight.domain;
 
-public class User extends Domain{
+public class User {
 
 
     public String username;

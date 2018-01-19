@@ -4,17 +4,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.google.gson.Gson;
-import io.openlight.MediaTypes;
-import io.openlight.domain.Chapter;
-import io.openlight.domain.DomainResponse;
 import io.openlight.domain.User;
-import io.openlight.neo4j.books.BookFinder;
-import io.openlight.neo4j.chapters.ChapterFinder;
-import io.openlight.response.Link;
-import io.openlight.response.Response;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 

@@ -1,15 +1,11 @@
 package io.openlight.neo4j.books;
 
 import io.openlight.domain.Book;
-import io.openlight.domain.DomainResponse;
-import io.openlight.domain.User;
 import org.neo4j.driver.v1.*;
-import org.neo4j.driver.v1.types.Path;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class BookFinder {
@@ -36,7 +32,7 @@ public class BookFinder {
         return Optional.ofNullable(book);
     }
 
-    public static List<DomainResponse<Book>> listBooks(){
+    public static List<Book> listBooks(){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
@@ -48,12 +44,12 @@ public class BookFinder {
 
     }
 
-    private static DomainResponse<Book> makeBook(Record record){
-        DomainResponse response = new DomainResponse();
+    private static Book makeBook(Record record){
+
         Book book = new Book();
-        response.id = record.get("id").asString();
+        book.id = record.get("id").asString();
         book.title = record.get("title").asString();
-        response.data = book;
-        return response;
+
+        return book;
     }
 }

@@ -1,6 +1,6 @@
 package io.openlight.domain;
 
-public class Book extends Domain{
+public class Book {
 
     public String title;
     public String image;

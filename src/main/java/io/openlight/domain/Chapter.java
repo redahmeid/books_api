@@ -2,7 +2,7 @@ package io.openlight.domain;
 
 import java.util.Optional;
 
-public class Chapter extends Domain{
+public class Chapter {
 
     public String text;
 

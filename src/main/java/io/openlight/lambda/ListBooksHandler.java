@@ -7,14 +7,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.google.gson.Gson;
 import io.openlight.MediaTypes;
 import io.openlight.domain.Book;
-import io.openlight.domain.DomainResponse;
 import io.openlight.neo4j.books.BookFinder;
 import io.openlight.response.Link;
-import io.openlight.response.Links;
 import io.openlight.response.Response;
-import io.openlight.response.books.BooksResponse;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,15 +27,16 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
         Response response = new Response(MediaTypes.BOOKS);
         response.self = "https://sandbox.api.openlight.io/books";
-        List<DomainResponse<Book>> books = BookFinder.listBooks();
+        List<Book> books = BookFinder.listBooks();
 
 
         List<Response> listOfBooks = books.
                 parallelStream().
                 map(r -> {
-                    Response internalResponse = new Response(MediaTypes.BOOK);
+                    Response<io.openlight.response.books.Book> internalResponse = new Response(MediaTypes.BOOK);
                     internalResponse.self = "https://sandbox.api.openlight.io/books/"+r.id;
-                    internalResponse.data = r.data;
+                    internalResponse.data = new io.openlight.response.books.Book();
+                    internalResponse.data.title = r.title;
                     return internalResponse;
                 }).
                 collect(Collectors.toList());

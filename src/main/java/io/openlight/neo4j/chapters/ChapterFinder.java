@@ -1,10 +1,8 @@
 package io.openlight.neo4j.chapters;
 
 import io.openlight.domain.Chapter;
-import io.openlight.domain.DomainResponse;
 import org.neo4j.driver.v1.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,26 +35,7 @@ public class ChapterFinder {
         return Optional.ofNullable(chapter);
     }
 
-    public static Optional<DomainResponse> getFirstChapterIdForBook(String bookId){
-        Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
-        DomainResponse response = null;
-        Session session = driver.session();
 
-        String cypher = "MATCH (book:Book{id:'"+bookId+"'}) - [:NEXT] -> (chapter) return chapter.id as id";
-        StatementResult chapterResult = session.run( cypher);
-        while ( chapterResult.hasNext() )
-        {
-            response = new DomainResponse();
-            Record record = chapterResult.next();
-            response.id = record.get("id").asString();
-
-        }
-
-        session.close();
-        driver.close();
-
-        return Optional.ofNullable(response);
-    }
 
     public static Optional<List<Chapter>> getStoryForBook(String bookId){
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
