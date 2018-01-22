@@ -54,12 +54,12 @@ public class GetBookHandler extends AbstractLambda {
         bookAPI.title = book.title;
 
 
-        Optional<List<Chapter>> chapters = ChapterFinder.getStoryForBook(book.id);
 
-        chapters.ifPresent(r ->
+
+        book.chapters.ifPresent(r ->
                 response.addRelated("next_chapter",baseUrl+"/chapters/"+r.get(0).id));
 
-        chapters.map(r -> bookAPI.story = makeEmbeddedChapters(r,baseUrl));
+        book.chapters.map(r -> bookAPI.story = makeEmbeddedChapters(r,baseUrl));
 
 
         Link link = new Link();

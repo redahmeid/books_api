@@ -1,6 +1,7 @@
 package io.openlight.neo4j.books;
 
 import io.openlight.domain.Book;
+import io.openlight.domain.Chapter;
 import org.neo4j.driver.v1.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class BookFinder {
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
-        StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) RETURN n.username AS editor, b.title AS title, b.id AS book_id");
+        StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) OPTIONAL MATCH (book:Book{id:'\"+bookId+\"'}) - [:NEXT*] -> (chapter) return chapter.id as chapter_id RETURN n.username AS editor, b.title AS title, b.id AS book_id");
         while ( findEditor.hasNext() )
         {
             book = new Book();
@@ -24,7 +25,7 @@ public class BookFinder {
             book.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
-
+            if(record.get("editor").asString()!=null) book.addChapter(new Chapter().addId(record.get("editor").asString()));
 
         }
 

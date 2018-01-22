@@ -12,4 +12,9 @@ public class Chapter {
     public String book;
     public Optional<String> previous;
     public Optional<String> next;
+
+    public Chapter addId(String id){
+        this.id = id;
+        return this;
+    }
 }
