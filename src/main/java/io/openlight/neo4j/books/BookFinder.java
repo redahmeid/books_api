@@ -20,12 +20,12 @@ public class BookFinder {
         StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) OPTIONAL MATCH (book:Book{id:'"+book_id+"'}) - [:NEXT*] -> (chapter) return chapter.id as chapter_id, n.username AS editor, b.title AS title, b.id AS book_id");
         while ( findEditor.hasNext() )
         {
-            book = new Book();
+            if(book==null)book = new Book();
             Record record = findEditor.next();
             book.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
-            if(record.get("chapter_id").asString()!=null) book.addChapter(new Chapter().addId(record.get("chapter_id").asString()));
+            if(record.get("chapter_id")!=null) book.addChapter(new Chapter().addId(record.get("chapter_id").asString()));
 
         }
 
