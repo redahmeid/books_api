@@ -17,7 +17,7 @@ public class BookFinder {
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
-        StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) OPTIONAL MATCH (book:Book{id:'\"+bookId+\"'}) - [:NEXT*] -> (chapter) return chapter.id as chapter_id RETURN n.username AS editor, b.title AS title, b.id AS book_id");
+        StatementResult findEditor = session.run("MATCH (n:User)-[edits]-(b:Book{id: '"+book_id+"' }) OPTIONAL MATCH (book:Book{id:'\"+bookId+\"'}) - [:NEXT*] -> (chapter) return chapter.id as chapter_id, n.username AS editor, b.title AS title, b.id AS book_id");
         while ( findEditor.hasNext() )
         {
             book = new Book();
