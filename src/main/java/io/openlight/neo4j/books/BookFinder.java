@@ -25,7 +25,7 @@ public class BookFinder {
             book.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
-            if(record.get("editor").asString()!=null) book.addChapter(new Chapter().addId(record.get("editor").asString()));
+            if(record.get("chapter_id").asString()!=null) book.addChapter(new Chapter().addId(record.get("chapter_id").asString()));
 
         }
 
