@@ -25,7 +25,7 @@ public class BookFinder {
             book.id = record.get("book_id").asString();
             book.title = record.get("title").asString();
             book.editor = record.get("editor").asString();
-            if(record.get("chapter_id")!=null) book.addChapter(new Chapter().addId(record.get("chapter_id").asString()));
+            if(!record.get("chapter_id").isNull()) book.addChapter(new Chapter().addId(record.get("chapter_id").asString()));
 
         }
 
@@ -38,14 +38,16 @@ public class BookFinder {
     }
 
     public static List<Book> listBooks(){
+        long start = new Date().getTime();
         Driver driver = GraphDatabase.driver( System.getenv("neo_url"), AuthTokens.basic( System.getenv("neo_user"), System.getenv("neo_password") ) );
         Book book = null;
         Session session = driver.session();
         StatementResult result = session.run("MATCH (n:Book) RETURN n.id AS id, n.title AS title");
 
-        ArrayList<Book> list = new ArrayList<>();
-
-        return result.list().parallelStream().map(r -> makeBook(r)).collect(Collectors.toList());
+        List<Book> list = result.list().parallelStream().map(r -> makeBook(r)).collect(Collectors.toList());
+        long end = new Date().getTime();
+        System.out.println("Retrieving a list of books from neo4j took - "+(end-start));
+        return list;
 
     }
 

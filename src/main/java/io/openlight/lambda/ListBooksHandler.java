@@ -11,6 +11,7 @@ import io.openlight.neo4j.books.BookFinder;
 import io.openlight.response.Link;
 import io.openlight.response.Response;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
-
+        long start = new Date().getTime();
 
         Response response = new Response(MediaTypes.BOOKS);
         response.self = "https://sandbox.api.openlight.io/books";
@@ -57,6 +58,9 @@ public class ListBooksHandler implements RequestHandler<APIGatewayProxyRequestEv
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", response.type);
         headers.put("access-control-allow-origin","*");
+
+        long end = new Date().getTime();
+        System.out.println("Time it takes to get book = "+(end-start));
 
         return new APIGatewayProxyResponseEvent().withBody(bookJson).withHeaders(headers).withStatusCode(200);
 
