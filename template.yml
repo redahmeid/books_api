@@ -60,15 +60,13 @@ Resources:
             base_url: !Ref BaseUrl
         Role: arn:aws:iam::963160149973:role/CodeStarWorker-create-user-jav-Lambda
         Events:
-          GetEvent:
-            Type: Api
-            Properties:
-              Path: /{bookid}
-              Method: get
+          — http:
+              path: /{bookid}
+              method: get
               request:
                 parameters:
-                  paths:
-                    bookid: true
+                   paths:
+                     bookid: true
   CreateBook:
         Type: AWS::Serverless::Function
         Properties:
