@@ -65,6 +65,10 @@ Resources:
             Properties:
               Path: /{bookid}
               Method: get
+              request:
+                parameters:
+                  paths:
+                    bookid: true
   CreateBook:
         Type: AWS::Serverless::Function
         Properties:
